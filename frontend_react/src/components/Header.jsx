@@ -1,4 +1,6 @@
 import {Link} from "react-router-dom";
+import logo from "../assets/images/logo.svg";
+
  
 export const Header = () => {
     return (
@@ -20,7 +22,7 @@ export const Header = () => {
                                     <img src="./assets/images/logo-icon.svg" />
                                 </div>
                                 <div className="main-logo" id="logo">
-                                    <img src="./assets/images/logo.svg" />
+                                    <img src={logo} />
                                     <img className="logo-inverse" src="./assets/images/dark-logo.svg" />
                                 </div>
                             </a>
