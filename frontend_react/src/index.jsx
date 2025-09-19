@@ -1,7 +1,28 @@
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
+import { useEffect, useState } from "react";
+import { data } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 
 export const IndexPage = () => {
+
+
+  const [movies, allMoviesGet] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_Bankend}/allMovies`)
+      .then((res) => res.json())
+      .then((data) => allMoviesGet(data));
+  }, []);
+
+
+      const MovieMoveId = (id) => {
+            
+             navigate(`/venues/${id}`);
+
+    }
+
   return (
     <>
       <div className="h-100">
@@ -66,34 +87,48 @@ export const IndexPage = () => {
                           <button type="button" className="control" data-filter=".free">Free</button>
                         </div>
                         <div className="row" data-ref="event-filter-content">
-                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness" data-ref="mixitup-target">
-                            <div className="main-card mt-4">
-                              <div className="event-thumbnail">
-                                <a href="venue_event_detail_view.html" className="thumbnail-img">
-                                  <img src="./assets/images/event-imgs/img-1.jpg" />
-                                </a>
-                                <span className="bookmark-icon" title="Bookmark" />
-                              </div>
-                              <div className="event-content">
-                                <a href="venue_event_detail_view.html" className="event-title">A New Way Of Life</a>
-                                <div className="duration-price-remaining">
-                                  <span className="duration-price">AUD $100.00*</span>
-                                  <span className="remaining" />
-                                </div>
-                              </div>
-                              <div className="event-footer">
-                                <div className="event-timing">
-                                  <div className="publish-date">
-                                    <span><i className="fa-solid fa-calendar-day me-2" />15 Apr</span>
-                                    <span className="dot"><i className="fa-solid fa-circle" /></span>
-                                    <span>Fri, 3.45 PM</span>
+
+
+                          {
+                            movies.map((movies, index) => (
+
+
+                              <div key={index} className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness" data-ref="mixitup-target">
+
+
+                                <div className="main-card mt-4">
+                                  <div className="event-thumbnail">
+                                    <a onClick={()=>MovieMoveId(movies.id)} className="thumbnail-img">
+                                     <img src={`/assets/images/event-imgs/${movies.movie_poster}`} alt="Jolly" />
+                                    </a>
+                                    <span className="bookmark-icon" title="Bookmark" />
                                   </div>
-                                  <span className="publish-time"><i className="fa-solid fa-clock me-2" />1h</span>
+                                  <div className="event-content">
+                                    <a href="venue_event_detail_view.html" className="event-title">{movies.title}</a>
+                                    <div className="duration-price-remaining">
+                                      <span className="duration-price">Language:- {movies.language}</span>
+                                      <span className="remaining" />
+                                    </div>
+                                  </div>
+                                  <div className="event-footer">
+                                    <div className="event-timing">
+                                      <div className="publish-date">
+                                        <span><i className="fa-solid fa-calendar-day me-2" />15 Apr</span>
+                                        <span className="dot"><i className="fa-solid fa-circle" /></span>
+                                        <span>Fri, 3.45 PM</span>
+                                      </div>
+                                      <span className="publish-time"><i className="fa-solid fa-clock me-2" />1h</span>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix business workshops volunteer sports health_Wellness" data-ref="mixitup-target">
+
+                            ))
+                          }
+
+
+
+                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix business workshops volunteer sports health_Wellness" data-ref="mixitup-target">
                             <div className="main-card mt-4">
                               <div className="event-thumbnail">
                                 <a href="online_event_detail_view.html" className="thumbnail-img">
@@ -119,8 +154,8 @@ export const IndexPage = () => {
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix coaching_consulting free concert volunteer health_Wellness bussiness" data-ref="mixitup-target">
+                          </div> */}
+                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix coaching_consulting free concert volunteer health_Wellness bussiness" data-ref="mixitup-target">
                             <div className="main-card mt-4">
                               <div className="event-thumbnail">
                                 <a href="venue_event_detail_view.html" className="thumbnail-img">
@@ -147,8 +182,8 @@ export const IndexPage = () => {
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div className=" col-xl-3 col-lg-4 col-md-6 col-sm-12 mix health_Wellness concert volunteer sports free business" data-ref="mixitup-target">
+                          </div> */}
+                          {/* <div className=" col-xl-3 col-lg-4 col-md-6 col-sm-12 mix health_Wellness concert volunteer sports free business" data-ref="mixitup-target">
                             <div className="main-card mt-4">
                               <div className="event-thumbnail">
                                 <a href="online_event_detail_view.html" className="thumbnail-img">
@@ -175,8 +210,8 @@ export const IndexPage = () => {
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix concert sports health_Wellness free arts" data-ref="mixitup-target">
+                          </div> */}
+                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix concert sports health_Wellness free arts" data-ref="mixitup-target">
                             <div className="main-card mt-4">
                               <div className="event-thumbnail">
                                 <a href="venue_event_detail_view.html" className="thumbnail-img">
@@ -204,8 +239,8 @@ export const IndexPage = () => {
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix workshops concert arts volunteer sports" data-ref="mixitup-target">
+                          </div> */}
+                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix workshops concert arts volunteer sports" data-ref="mixitup-target">
                             <div className="main-card mt-4">
                               <div className="event-thumbnail">
                                 <a href="venue_event_detail_view.html" className="thumbnail-img">
@@ -232,8 +267,8 @@ export const IndexPage = () => {
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix volunteer free health_Wellness" data-ref="mixitup-target">
+                          </div> */}
+                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix volunteer free health_Wellness" data-ref="mixitup-target">
                             <div className="main-card mt-4">
                               <div className="event-thumbnail">
                                 <a href="online_event_detail_view.html" className="thumbnail-img">
@@ -260,8 +295,8 @@ export const IndexPage = () => {
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix sports concert volunteer arts" data-ref="mixitup-target">
+                          </div> */}
+                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix sports concert volunteer arts" data-ref="mixitup-target">
                             <div className="main-card mt-4">
                               <div className="event-thumbnail">
                                 <a href="venue_event_detail_view.html" className="thumbnail-img">
@@ -289,7 +324,7 @@ export const IndexPage = () => {
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                         <div className="browse-btn">
                           <a href="explore_events.html" className="main-btn btn-hover ">Browse All</a>
@@ -895,8 +930,8 @@ export const IndexPage = () => {
           </div>
           {/* Body End*/}
           {/* Footer Start*/}
-   
-   <Footer/>
+
+          <Footer />
 
 
         </div>

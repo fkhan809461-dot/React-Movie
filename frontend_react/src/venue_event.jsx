@@ -1,6 +1,6 @@
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
-
+import { useParams } from "react-router-dom";
 
 
 
@@ -8,6 +8,8 @@ import { Footer } from "./components/Footer";
 
 
 export const VenueEvent = () => {
+
+//  const { id } = useParams();
 
     return (
 
@@ -60,7 +62,7 @@ export const VenueEvent = () => {
                                 <div className="col-xl-8 col-lg-7 col-md-12">
                                     <div className="main-event-dt">
                                         <div className="event-img">
-                                            <img src="./assets/images/event-imgs/big-2.jpg" />
+                                            <img src="../assets/images/event-imgs/big-2.jpg" />
                                         </div>
                                         <div className="share-save-btns dropdown">
                                             <button className="sv-btn me-2"><i className="fa-regular fa-bookmark me-2" />Save</button>
@@ -119,14 +121,21 @@ export const VenueEvent = () => {
                                                 <h5>Sat, Apr 30, 2022 11:30 AM</h5>
                                                 <div className="add-to-calendar">
                                                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                                        {/* <input type="date" />
+*/}
+
+
+
+
+
+
+
+
+
                                                         <i className="fa-regular fa-calendar-days me-3" />Add to Calendar
                                                     </a>
-                                                    <ul className="dropdown-menu">
-                                                        <li><a className="dropdown-item" href="#"><i className="fa-brands fa-windows me-3" />Outlook</a></li>
-                                                        <li><a className="dropdown-item" href="#"><i className="fa-brands fa-apple me-3" />Apple</a></li>
-                                                        <li><a className="dropdown-item" href="#"><i className="fa-brands fa-google me-3" />Google</a></li>
-                                                        <li><a className="dropdown-item" href="#"><i className="fa-brands fa-yahoo me-3" />Yahoo</a></li>
-                                                    </ul>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -145,11 +154,11 @@ export const VenueEvent = () => {
                                             <div className="select-ticket-action">
                                                 <div className="ticket-price">AUD $75.00</div>
                                                 <div className="quantity">
-                                                    <div className="counter">
+                                                    {/* <div className="counter">
                                                         <span className="down" onclick="decreaseCount(event, this)">-</span>
                                                         <input type="text" defaultValue={0} />
                                                         <span className="up" onclick="increaseCount(event, this)">+</span>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                             <p>2 x pair hand painted leather earrings 1 x glass of bubbles / or coffee Individual grazing box / fruit cup</p>

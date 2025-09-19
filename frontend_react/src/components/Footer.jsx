@@ -53,9 +53,9 @@ export const Footer = () => {
                     <div className="footer-content">
                       <h4>Download Mobile App</h4>
                       <div className="download-app-link">
-                        <a href="#" className="download-btn"><img src="./assets/images/
+                        <a href="#" className="download-btn"><img src="../assets/images/
 /app-store.png"  /></a>
-                        <a href="#" className="download-btn"><img src="./assets/images/
+                        <a href="#" className="download-btn"><img src="../assets/images/
 /google-play.png"  /></a>
                       </div>
                     </div>
