@@ -1,6 +1,7 @@
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
-import { useParams } from "react-router-dom";
+import { data, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 
 
@@ -8,8 +9,85 @@ import { useParams } from "react-router-dom";
 
 
 export const VenueEvent = () => {
+ const [allDataArray, storeData] = useState([]);
+  const [errors, setNameError] = useState({});
+    const { id } = useParams();
 
-//  const { id } = useParams();
+
+
+
+      const signUpData = (e) => {
+
+    const { name, value } = e.target;
+
+
+    const removeSpace = value.replace(/^\s+/, "");
+
+    storeData({ ...allDataArray, [name]: removeSpace });
+
+    setNameError((prev) => ({
+      ...prev,
+      name: name === "name" && value.length < 5 ? "Must be at least 5 characters (numbers are not allowed)" : "",
+      password: name === "password" && value.length < 6 ? "Password must be at least 6 characters (no spaces allowed)" : "",
+    }))
+
+
+      }
+
+  const HandelEvent = () => {
+
+    // console.log(allDataArray)
+
+          fetch(`${import.meta.env.VITE_Bankend}/regestion`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(allDataArray),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+
+          localStorage.setItem("userName", data.data.name);
+          localStorage.setItem("userEmail", data.data.email);
+        })
+
+    }
+
+    
+    
+    
+
+
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(allDataArray.email || "");
+  const isPassword = (allDataArray.password || "").replace(/\s+/g, "");
+  const isPasswordValid = isPassword.length >= 6;
+  const isName = /^[A-Za-z]{3,}[A-Za-z ]{2,}$/.test(allDataArray.name || "");
+
+  const isFormValid =
+    isName &&
+    // allDataArray.last_name &&
+    isEmailValid &&
+    isPasswordValid;
+
+
+
+    const userEmail = localStorage.getItem("userName");
+
+
+    const [StoreData, allData] = useState('');
+
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_Bankend}/getMoviesDetails/${id}`)
+            .then((res) => res.json())
+            .then((data) => {
+                allData(data)
+            })[0]
+    }, [id]);
+
+    //  console.log(StoreData.id); 
+
+
 
     return (
 
@@ -21,7 +99,9 @@ export const VenueEvent = () => {
                 <Header />
 
                 {/* Header End*/}
+
                 {/* Body Start*/}
+
                 <div className="wrapper">
                     <div className="breadcrumb-block">
                         <div className="container">
@@ -31,7 +111,9 @@ export const VenueEvent = () => {
                                         <nav aria-label="breadcrumb">
                                             <ol className="breadcrumb">
                                                 <li className="breadcrumb-item"><a href="index.html">Home</a></li>
+
                                                 <li className="breadcrumb-item"><a href="explore_events.html">Explore Events</a></li>
+
                                                 <li className="breadcrumb-item active" aria-current="page">Venue Event Detail View</li>
                                             </ol>
                                         </nav>
@@ -40,6 +122,7 @@ export const VenueEvent = () => {
                             </div>
                         </div>
                     </div>
+
                     <div className="event-dt-block p-80">
                         <div className="container">
                             <div className="row">
@@ -47,89 +130,112 @@ export const VenueEvent = () => {
                                     <div className="event-top-dts">
                                         <div className="event-top-date">
                                             <span className="event-month">Apr</span>
+
                                             <span className="event-date">30</span>
                                         </div>
+
                                         <div className="event-top-dt">
-                                            <h3 className="event-main-title">Spring Showcase Saturday April 30th 2022 at 7pm</h3>
+                                            <h3 className="event-main-title">{StoreData.title}</h3>
+
                                             <div className="event-top-info-status">
                                                 <span className="event-type-name"><i className="fa-solid fa-location-dot" />Venue Event</span>
+
                                                 <span className="event-type-name details-hr">Starts on <span className="ev-event-date">Sat, Apr 30, 2022 11:30 AM</span></span>
+
                                                 <span className="event-type-name details-hr">2h</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="col-xl-8 col-lg-7 col-md-12">
                                     <div className="main-event-dt">
                                         <div className="event-img">
                                             <img src="../assets/images/event-imgs/big-2.jpg" />
                                         </div>
+
                                         <div className="share-save-btns dropdown">
                                             <button className="sv-btn me-2"><i className="fa-regular fa-bookmark me-2" />Save</button>
+
                                             <button className="sv-btn" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-solid fa-share-nodes me-2" />Share</button>
+
                                             <ul className="dropdown-menu">
                                                 <li><a className="dropdown-item" href="#"><i className="fa-brands fa-facebook me-3" />Facebook</a></li>
+
                                                 <li><a className="dropdown-item" href="#"><i className="fa-brands fa-twitter me-3" />Twitter</a></li>
+
                                                 <li><a className="dropdown-item" href="#"><i className="fa-brands fa-linkedin-in me-3" />LinkedIn</a></li>
+
                                                 <li><a className="dropdown-item" href="#"><i className="fa-regular fa-envelope me-3" />Email</a></li>
                                             </ul>
                                         </div>
+
                                         <div className="main-event-content">
                                             <h4>About This Event</h4>
+
                                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dolor justo, sodales mattis orci et, mattis faucibus est. Nulla semper consectetur sapien a tempor. Ut vel lacus lorem. Nulla mauris massa, pharetra a mi ut, mattis euismod libero. Ut pretium bibendum urna nec egestas. Etiam tempor vehicula libero. Aenean cursus venenatis orci, ac porttitor leo porta sit amet. Nulla eleifend mollis enim sed rutrum. Nunc cursus ex a ligula consequat aliquet. Donec semper tellus ac ante vestibulum, vitae varius leo mattis. In vestibulum blandit tempus. Etiam elit turpis, volutpat hendrerit varius ut, posuere a sapien. Maecenas molestie bibendum finibus. Nulla euismod neque vel sem hendrerit faucibus. Nam sit amet metus sollicitudin, luctus eros at, consectetur libero.</p>
+
                                             <p>In malesuada luctus libero sed gravida. Suspendisse nunc est, maximus vel viverra nec, suscipit non massa. Maecenas efficitur vestibulum pellentesque. Ut finibus ullamcorper congue. Sed ut libero sit amet lorem venenatis facilisis. Mauris egestas tortor vel massa auctor, eget gravida mauris cursus. Etiam elementum semper fermentum. Suspendisse potenti. Morbi lobortis leo urna, non laoreet enim ultricies id. Integer id felis nec sapien consectetur porttitor. Proin tempor mauris in odio iaculis semper. Cras ultricies nulla et dui viverra, eu convallis orci fermentum.</p>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="col-xl-4 col-lg-5 col-md-12">
                                     <div className="main-card event-right-dt">
                                         <div className="bp-title">
                                             <h4>Event Details</h4>
                                         </div>
+
                                         <div className="time-left">
                                             <div className="countdown">
                                                 <div className="countdown-item">
                                                     <span id="day" />days
                                                 </div>
+
                                                 <div className="countdown-item">
                                                     <span id="hour" />Hours
                                                 </div>
+
                                                 <div className="countdown-item">
                                                     <span id="minute" />Minutes
                                                 </div>
+
                                                 <div className="countdown-item">
                                                     <span id="second" />Seconds
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div className="event-dt-right-group mt-5">
                                             <div className="event-dt-right-icon">
                                                 <i className="fa-solid fa-circle-user" />
                                             </div>
+
                                             <div className="event-dt-right-content">
                                                 <h4>Organised by</h4>
-                                                <h5>The Teeny Rabbit</h5>
+
+                                                <h5>{StoreData.title}</h5>
+
                                                 <a href="attendee_profile_view.html">View Profile</a>
                                             </div>
                                         </div>
+
                                         <div className="event-dt-right-group">
                                             <div className="event-dt-right-icon">
                                                 <i className="fa-solid fa-calendar-day" />
                                             </div>
+
                                             <div className="event-dt-right-content">
                                                 <h4>Date and Time</h4>
-                                                <h5>Sat, Apr 30, 2022 11:30 AM</h5>
+
+                                                <h5>{new Date(StoreData.release_date).toLocaleDateString("en-GB", {
+                                                    day: "2-digit",
+                                                    month: "short",
+                                                    year: "numeric",
+                                                })}</h5>
+
                                                 <div className="add-to-calendar">
                                                     <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                                                        {/* <input type="date" />
-*/}
-
-
-
-
-
-
 
 
 
@@ -139,45 +245,146 @@ export const VenueEvent = () => {
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div className="event-dt-right-group">
                                             <div className="event-dt-right-icon">
                                                 <i className="fa-solid fa-location-dot" />
                                             </div>
+
                                             <div className="event-dt-right-content">
                                                 <h4>Location</h4>
+
                                                 <h5 className="mb-0">00 Challis St, Newport, Victoria, 0000, Australia</h5>
+
                                                 <a href="#"><i className="fa-solid fa-location-dot me-2" />View Map</a>
                                             </div>
                                         </div>
+
                                         <div className="select-tickets-block">
                                             <h6>Select Tickets</h6>
+
                                             <div className="select-ticket-action">
                                                 <div className="ticket-price">AUD $75.00</div>
+
                                                 <div className="quantity">
-                                                    {/* <div className="counter">
-                                                        <span className="down" onclick="decreaseCount(event, this)">-</span>
-                                                        <input type="text" defaultValue={0} />
-                                                        <span className="up" onclick="increaseCount(event, this)">+</span>
-                                                    </div> */}
+
                                                 </div>
                                             </div>
+
                                             <p>2 x pair hand painted leather earrings 1 x glass of bubbles / or coffee Individual grazing box / fruit cup</p>
+
                                             <div className="xtotel-tickets-count">
                                                 <div className="x-title">1x Ticket(s)</div>
+
                                                 <h4>AUD <span>$0.00</span></h4>
                                             </div>
                                         </div>
-                                        <div className="booking-btn">
-                                            <a href="checkout.html" className="main-btn btn-hover w-100">Book Now</a>
+
+
+                                        <div>
+
+                                            <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div className="modal-dialog">
+                                                    <div className="modal-content">
+                                                        <div className="modal-header">
+
+                                                        </div>
+                                                        <div className="modal-body">
+                                                            <div className="row justify-content-center">
+                                                                <div className="col-lg-10 col-md-10">
+                                                                    <div className="app-top-items">
+                                                                        <a href="index.html">
+                                                                            <div className="sign-logo" id="logo">
+                                                                                <img src="images/logo.svg" alt />
+                                                                                <img className="logo-inverse" src="images/dark-logo.svg" alt />
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-xl-8 col-lg-6 col-md-7">
+                                                                    <div className="registration">
+                                                                        <form>
+                                                                            <h2 className="registration-title">Sign up to Barren</h2>
+                                                                            <div className="row mt-3">
+                                                                                <div className="col-lg-12 col-md-12">
+                                                                                    <div className="form-group mt-4">                                                            <label className="form-label">First Name*</label>
+                                                                                        <input className="form-control h_50" onChange={signUpData} required name="name" type="text" placeholder="Enter your first name" />
+                                                                                    </div>
+                                                                                    {/* {errors.name && <small style={{ color: "red" }}>{errors.name}</small>} */}
+                                                                                </div>
+
+                                                                                <div className="col-lg-12 col-md-12">
+                                                                                    <div className="form-group mt-4">
+                                                                                        <label className="form-label">Your Email*</label>
+                                                                                        <input className="form-control h_50" name="email" type="email" required onChange={signUpData} placeholder="Enter your email " />
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="col-lg-12 col-md-12">
+                                                                                    <div className="form-group mt-4">
+                                                                                        <div className="field-password">
+                                                                                            <label className="form-label">Password*</label>
+                                                                                        </div>
+                                                                                        <div className="loc-group position-relative">
+                                                                                            <input className="form-control h_50" name="password" required onChange={signUpData} type="password" placeholder="Enter your password" />
+                                                                                            <span className="pass-show-eye"><i className="fas fa-eye-slash" /></span>
+                                                                                        </div>
+                                                                                        {/* {errors.password && <small style={{ color: "red" }}>{errors.password}</small>} */}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="col-lg-12 col-md-12">
+                                                                                    <button  
+                                                                               data-bs-dismiss="modal"
+                                                                                    className="main-btn btn-hover w-100 mt-4" onClick={() => HandelEvent()} disabled={!isFormValid} style={{
+                                                                                        backgroundColor: isFormValid ? "#6ac045" : "#c7e6baff", // blue if valid, light grey if not
+                                                                                        cursor: isFormValid ? "pointer" : "not-allowed",
+                                                                                    }} type="button">Sign Up</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+
+                                                                        <div className="divider">
+                                                                            <span>or</span>
+                                                                        </div>
+                                                                        <div className="social-btns-list mb-lg-5">
+
+                                                                        </div>
+                                                                        <div className="new-sign-link">
+                                                                            Already have an account?<a className="signup-link" href="sign_in.html">Sign In</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div className="modal-footer">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        {!userEmail ? (
+
+                                            <div className="booking-btn">
+                                                <a href="/check_out" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" className="main-btn btn-hover w-100">Book Now</a>
+                                            </div>
+                                        ) : (
+                                            <div className="booking-btn">
+                                                <a href="/check_out" data-bs-whatever="@mdo" className="main-btn btn-hover w-100">Book Now</a>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
+
                                 <div className="col-xl-12 col-lg-12 col-md-12">
                                     <div className="more-events">
                                         <div className="main-title position-relative">
                                             <h3>More Events</h3>
+
                                             <a href="explore_events.html" className="view-all-link">Browse All<i className="fa-solid fa-right-long ms-2" /></a>
                                         </div>
+
                                         <div className="owl-carousel moreEvents-slider owl-theme">
                                             <div className="item">
                                                 <div className="main-card mt-4">
@@ -185,157 +392,210 @@ export const VenueEvent = () => {
                                                         <a href="venue_event_detail_view.html" className="thumbnail-img">
                                                             <img src="./assets/images/event-imgs/img-1.jpg" />
                                                         </a>
+
                                                         <span className="bookmark-icon" title="Bookmark" />
                                                     </div>
+
                                                     <div className="event-content">
                                                         <a href="venue_event_detail_view.html" className="event-title">A New Way Of Life</a>
+
                                                         <div className="duration-price-remaining">
                                                             <span className="duration-price">AUD $100.00*</span>
+
                                                             <span className="remaining" />
                                                         </div>
                                                     </div>
+
                                                     <div className="event-footer">
                                                         <div className="event-timing">
                                                             <div className="publish-date">
                                                                 <span><i className="fa-solid fa-calendar-day me-2" />15 Apr</span>
+
                                                                 <span className="dot"><i className="fa-solid fa-circle" /></span>
+
                                                                 <span>Fri, 3.45 PM</span>
                                                             </div>
+
                                                             <span className="publish-time"><i className="fa-solid fa-clock me-2" />1h</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div className="item">
                                                 <div className="main-card mt-4">
                                                     <div className="event-thumbnail">
                                                         <a href="online_event_detail_view.html" className="thumbnail-img">
                                                             <img src="./assets/images/event-imgs/img-2.jpg" />
                                                         </a>
+
                                                         <span className="bookmark-icon" title="Bookmark" />
                                                     </div>
+
                                                     <div className="event-content">
                                                         <a href="online_event_detail_view.html" className="event-title">Earrings Workshop with Bronwyn David</a>
+
                                                         <div className="duration-price-remaining">
                                                             <span className="duration-price">AUD $75.00*</span>
+
                                                             <span className="remaining"><i className="fa-solid fa-ticket fa-rotate-90" />6 Remaining</span>
                                                         </div>
                                                     </div>
+
                                                     <div className="event-footer">
                                                         <div className="event-timing">
                                                             <div className="publish-date">
                                                                 <span><i className="fa-solid fa-calendar-day me-2" />30 Apr</span>
+
                                                                 <span className="dot"><i className="fa-solid fa-circle" /></span>
+
                                                                 <span>Sat, 11.20 PM</span>
                                                             </div>
+
                                                             <span className="publish-time"><i className="fa-solid fa-clock me-2" />2h</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div className="item">
                                                 <div className="main-card mt-4">
                                                     <div className="event-thumbnail">
                                                         <a href="venue_event_detail_view.html" className="thumbnail-img">
                                                             <img src="./assets/images/event-imgs/img-3.jpg" />
                                                         </a>
+
                                                         <span className="bookmark-icon" title="Bookmark" />
                                                     </div>
+
                                                     <div className="event-content">
                                                         <a href="venue_event_detail_view.html" className="event-title">Spring Showcase Saturday April 30th 2022 at 7pm</a>
+
                                                         <div className="duration-price-remaining">
                                                             <span className="duration-price">Free*</span>
+
                                                             <span className="remaining" />
                                                         </div>
                                                     </div>
+
                                                     <div className="event-footer">
                                                         <div className="event-timing">
                                                             <div className="publish-date">
                                                                 <span><i className="fa-solid fa-calendar-day me-2" />1 May</span>
+
                                                                 <span className="dot"><i className="fa-solid fa-circle" /></span>
+
                                                                 <span>Sun, 4.30 PM</span>
                                                             </div>
+
                                                             <span className="publish-time"><i className="fa-solid fa-clock me-2" />3h</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div className="item">
                                                 <div className="main-card mt-4">
                                                     <div className="event-thumbnail">
                                                         <a href="online_event_detail_view.html" className="thumbnail-img">
                                                             <img src="./assets/images/event-imgs/img-4.jpg" />
                                                         </a>
+
                                                         <span className="bookmark-icon" title="Bookmark" />
                                                     </div>
+
                                                     <div className="event-content">
                                                         <a href="online_event_detail_view.html" className="event-title">Shutter Life</a>
+
                                                         <div className="duration-price-remaining">
                                                             <span className="duration-price">AUD $85.00</span>
+
                                                             <span className="remaining"><i className="fa-solid fa-ticket fa-rotate-90" />7 Remaining</span>
                                                         </div>
                                                     </div>
+
                                                     <div className="event-footer">
                                                         <div className="event-timing">
                                                             <div className="publish-date">
                                                                 <span><i className="fa-solid fa-calendar-day me-2" />1 May</span>
+
                                                                 <span className="dot"><i className="fa-solid fa-circle" /></span>
+
                                                                 <span>Sun, 5.30 PM</span>
                                                             </div>
+
                                                             <span className="publish-time"><i className="fa-solid fa-clock me-2" />1h</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div className="item">
                                                 <div className="main-card mt-4">
                                                     <div className="event-thumbnail">
                                                         <a href="venue_event_detail_view.html" className="thumbnail-img">
                                                             <img src="./assets/images/event-imgs/img-5.jpg" />
                                                         </a>
+
                                                         <span className="bookmark-icon" title="Bookmark" />
                                                     </div>
+
                                                     <div className="event-content">
                                                         <a href="venue_event_detail_view.html" className="event-title">Friday Night Dinner at The Old Station May 27 2022</a>
+
                                                         <div className="duration-price-remaining">
                                                             <span className="duration-price">AUD $41.50*</span>
+
                                                             <span className="remaining" />
                                                         </div>
                                                     </div>
+
                                                     <div className="event-footer">
                                                         <div className="event-timing">
                                                             <div className="publish-date">
                                                                 <span><i className="fa-solid fa-calendar-day me-2" />27 May</span>
+
                                                                 <span className="dot"><i className="fa-solid fa-circle" /></span>
+
                                                                 <span>Fri, 12.00 PM</span>
                                                             </div>
+
                                                             <span className="publish-time"><i className="fa-solid fa-clock me-2" />5h</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div className="item">
                                                 <div className="main-card mt-4">
                                                     <div className="event-thumbnail">
                                                         <a href="venue_event_detail_view.html" className="thumbnail-img">
                                                             <img src="./assets/images/event-imgs/img-6.jpg" />
                                                         </a>
+
                                                         <span className="bookmark-icon" title="Bookmark" />
                                                     </div>
+
                                                     <div className="event-content">
                                                         <a href="venue_event_detail_view.html" className="event-title">Step Up Open Mic Show</a>
+
                                                         <div className="duration-price-remaining">
                                                             <span className="duration-price">AUD $200.00*</span>
+
                                                             <span className="remaining" />
                                                         </div>
                                                     </div>
+
                                                     <div className="event-footer">
                                                         <div className="event-timing">
                                                             <div className="publish-date">
                                                                 <span><i className="fa-solid fa-calendar-day me-2" />30 Jun</span>
+
                                                                 <span className="dot"><i className="fa-solid fa-circle" /></span>
+
                                                                 <span>Thu, 4.30 PM</span>
                                                             </div>
+
                                                             <span className="publish-time"><i className="fa-solid fa-clock me-2" />1h</span>
                                                         </div>
                                                     </div>
@@ -348,8 +608,11 @@ export const VenueEvent = () => {
                         </div>
                     </div>
                 </div>
+
                 {/* Body End*/}
+
                 {/* Footer Start*/}
+
                 <Footer />
             </div>
 

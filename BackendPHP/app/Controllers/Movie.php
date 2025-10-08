@@ -8,14 +8,30 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Movie extends BaseController
 {
+
+    public function __construct(){
+        $this->moviesModel= new MovieModel();
+    }
+
     public function fetchAllMovies()
     {
      
-                $moviesModel= new MovieModel();
+                // $moviesModel= new MovieModel();
 
-                $allRecord= $moviesModel->allMoviesGet();
+                $allRecord= $this->moviesModel->allMoviesGet();
            
             return    $this->response->setJSON($allRecord);
 
     }
+
+
+    public function getMoviesDetails($id){
+
+    
+    $allRecord= $this->moviesModel->singelMovieDetails($id);
+       
+        return $this->response->setJSON($allRecord);
+
+    }
+
 }

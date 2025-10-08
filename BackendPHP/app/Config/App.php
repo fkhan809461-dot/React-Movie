@@ -6,6 +6,13 @@ use CodeIgniter\Config\BaseConfig;
 
 class App extends BaseConfig
 {
+
+    public $sessionDriver            = 'CodeIgniter\Session\Handlers\FileHandler';
+public $sessionCookieName        = 'ci_session';
+public $sessionSavePath          = WRITEPATH . 'session';
+public $sessionMatchIP           = false;
+public $sessionRegenerateDestroy = false;
+
     /**
      * --------------------------------------------------------------------------
      * Base Site URL
@@ -17,6 +24,8 @@ class App extends BaseConfig
      * E.g., http://example.com/
      */
     public string $baseURL = 'http://localhost:8080/';
+public $cookieSecure = false;  // if you're not using HTTPS locally
+public $cookieSameSite = 'None'; // allow cross-site cookies
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
