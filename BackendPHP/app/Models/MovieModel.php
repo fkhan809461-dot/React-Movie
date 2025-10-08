@@ -22,6 +22,12 @@ class MovieModel extends Model
     }
 
 
+    public function singelMovieDetails($id){
+         $this->where('id',$id);
+         return $this->first();
+    }
+
+
 
     
 

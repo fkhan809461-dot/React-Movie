@@ -12,7 +12,10 @@ use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\PageCache;
 use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
-
+header('Access-Control-Allow-Origin: http://localhost:3000'); // React app URL
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 class Filters extends BaseFilters
 {
     /**
@@ -29,6 +32,7 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
     ];
+
 
     /**
      * List of special required filters
@@ -56,6 +60,7 @@ class Filters extends BaseFilters
             // 'secureheaders',
         ],
     ];
+
 
     public array $methods = [];
 

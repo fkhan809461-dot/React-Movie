@@ -24,6 +24,9 @@ class Cors extends BaseConfig
      *      maxAge: int,
      *  }
      */
+
+public $allowedOrigins = ['http://localhost:5173'];
+public $supportsCredentials = true;
     public array $default = [
         /**
          * Origins for the `Access-Control-Allow-Origin` header.

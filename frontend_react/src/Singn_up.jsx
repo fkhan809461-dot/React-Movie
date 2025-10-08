@@ -14,19 +14,15 @@ export const Sign_up = () => {
 
     const removeSpace = value.replace(/^\s+/, "");
 
-        storeData({ ...allDataArray, [name]: removeSpace });
+    storeData({ ...allDataArray, [name]: removeSpace });
 
     setNameError((prev) => ({
       ...prev,
       name: name === "name" && value.length < 5 ? "Must be at least 5 characters (numbers are not allowed)" : "",
-       password: name === "password" && value.length < 6 ? "Password must be at least 6 characters (no spaces allowed)" : "",
+      password: name === "password" && value.length < 6 ? "Password must be at least 6 characters (no spaces allowed)" : "",
     }))
 
   }
-
-
-
-
 
   const HandelEvent = () => {
 
@@ -36,38 +32,43 @@ export const Sign_up = () => {
       // console.log("these five not");
       setNameError("First name must be at least 5 characters");
 
-    }else{
-
-  
+    } else {
 
 
-    fetch(`${import.meta.env.VITE_Bankend}/regestion`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(allDataArray),
-    }).then((data) => {
 
-      if (data.status == 200) {
-        alert("User inserted successfully");
-        // Swal.fire("SweetAlert2 is working!");
-        window.location.href = "/";
-      }
-    })
-  }
+
+      fetch(`${import.meta.env.VITE_Bankend}/regestion`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(allDataArray),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+
+          localStorage.setItem("userName", data.data.name);
+          localStorage.setItem("userEmail", data.data.email);
+
+          if (data.success == true) {
+            alert("User inserted successfully");
+            // Swal.fire("SweetAlert2 is working!");
+            window.location.href = "/";
+          }
+        })
+    }
   }
 
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(allDataArray.email || "");
   const isPassword = (allDataArray.password || "").replace(/\s+/g, "");
-const isPasswordValid = isPassword.length >= 6;
-const isName=  /^[A-Za-z]{3,}[A-Za-z ]{2,}$/.test(allDataArray.name || "");
+  const isPasswordValid = isPassword.length >= 6;
+  const isName = /^[A-Za-z]{3,}[A-Za-z ]{2,}$/.test(allDataArray.name || "");
 
   const isFormValid =
     isName &&
     // allDataArray.last_name &&
     isEmailValid &&
-    isPasswordValid ;
+    isPasswordValid;
 
   return (
     <>
@@ -108,9 +109,9 @@ const isName=  /^[A-Za-z]{3,}[A-Za-z ]{2,}$/.test(allDataArray.name || "");
                             <label className="form-label">First Name*</label>
                             <input className="form-control h_50" onChange={signUpData} required name="name" type="text" placeholder="Enter your first name" />
                           </div>
-                    {errors.name && <small style={{ color: "red" }}>{errors.name}</small>}
+                          {errors.name && <small style={{ color: "red" }}>{errors.name}</small>}
                         </div>
-                 
+
                         <div className="col-lg-12 col-md-12">
                           <div className="form-group mt-4">
                             <label className="form-label">Your Email*</label>

@@ -1,8 +1,31 @@
-import {Link} from "react-router-dom";
+import {data, Link} from "react-router-dom";
 import logo from "../assets/images/logo.svg";
+import { useEffect, useState } from "react";
 
  
 export const Header = () => {
+
+    const userEmail = localStorage.getItem("userName");
+    const userName = localStorage.getItem("userEmail");
+
+
+    const [Datasession,LoginesDetails] = useState('');
+
+    useEffect(()=> {
+        fetch(`${import.meta.env.VITE_Bankend}/getSessionUser`,{
+          method: "GET",
+  credentials: "include",
+        })
+        .then((res) => res.json())
+        .then((data)=> 
+          
+                LoginesDetails(data),
+        )
+    },[])
+
+
+   console.log("Session Data:", Datasession);
+
     return (
 
         <>
@@ -158,8 +181,8 @@ export const Header = () => {
                                                     <div className="account-holder-avatar">
                                                         <img src="/assets/images/profile-imgs/img-13.jpg" />
                                                     </div>
-                                                    <h5>John Doe</h5>
-                                                    <p>johndoe@example.com</p>
+                                                    <h5>{userEmail}</h5>
+                                                    <p>{userName}</p>
                                                 </div>
                                             </li>
                                             <li className="profile-link">

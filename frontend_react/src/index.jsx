@@ -37,6 +37,7 @@ export const IndexPage = () => {
           {/* Header End*/}
           {/* Body Start*/}
           <div className="wrapper">
+
             <div className="hero-banner">
               <div className="container">
                 <div className="row justify-content-center">
