@@ -11,7 +11,7 @@ import {Sign_up} from './Singn_up'
 import {Profile_User} from './Profile'
 import {AllEvent} from './AllEvent'
 import {CheckButton} from './Check_butto'
-
+import {SheetShow} from './Sheet'
 
 
 function App() {
@@ -31,6 +31,7 @@ function App() {
          <Route path="/profile_user" element={<Profile_User/>} />
          <Route path="/all_event" element={<AllEvent/>} />
          <Route path="/test" element={<CheckButton/>} />
+         <Route path="/sheet" element={<SheetShow/>} />
         </Routes>
       </Router>
 
