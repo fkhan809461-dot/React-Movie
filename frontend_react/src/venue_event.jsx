@@ -1,6 +1,6 @@
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
-import { data, useParams } from "react-router-dom";
+import { data, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 
@@ -13,7 +13,7 @@ export const VenueEvent = () => {
   const [errors, setNameError] = useState({});
     const { id } = useParams();
 
-
+const navigate= useNavigate();
 
 
       const signUpData = (e) => {
@@ -50,6 +50,8 @@ export const VenueEvent = () => {
 
           localStorage.setItem("userName", data.data.name);
           localStorage.setItem("userEmail", data.data.email);
+
+          navigate('/sheet');
         })
 
     }
@@ -371,7 +373,7 @@ export const VenueEvent = () => {
                                             </div>
                                         ) : (
                                             <div className="booking-btn">
-                                                <a href="/check_out" data-bs-whatever="@mdo" className="main-btn btn-hover w-100">Book Now</a>
+                                                <a href="/sheet" data-bs-whatever="@mdo" className="main-btn btn-hover w-100">Book Now</a>
                                             </div>
                                         )}
                                     </div>

@@ -6614,3 +6614,150 @@ input[type=number]::-webkit-inner-spin-button {
     width: 100%;
     height: 250px;
 }
+
+
+/* sheet page css */
+
+  body {
+        font-family: "Poppins", sans-serif;
+        background: #f9fafb;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header {
+        background: #fff;
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .movie-info h2 {
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .movie-info p {
+        margin: 3px 0 0;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .showtime {
+        background: #00b050;
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 5px;
+        display: inline-block;
+        font-weight: bold;
+        margin-top: 10px;
+        font-size: 13px;
+    }
+
+    .screen-info {
+        text-align: center;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .seats-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .rows {
+        text-align: center;
+    }
+
+    .row-label {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .seat-row {
+        display: flex;
+        justify-content: center;
+        margin: 6px 0;
+    }
+
+    .seat {
+        width: 28px;
+        height: 28px;
+        border: 2px solid #00b050;
+        border-radius: 5px;
+        margin: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        background: #fff;
+    }
+
+    .seat:hover {
+        transform: scale(1.1);
+    }
+
+    .seat.sold {
+        background: #ccc;
+        border: 2px solid #ccc;
+        cursor: not-allowed;
+    }
+
+    .seat.selected {
+        background: #00b050;
+        color: #fff;
+    }
+
+    .legend {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .legend div {
+        display: flex;
+        align-items: center;
+        margin: 0 10px;
+    }
+
+    .legend span {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #00b050;
+        border-radius: 4px;
+        margin-right: 5px;
+    }
+
+    .legend .sold span {
+        border-color: #ccc;
+        background: #ccc;
+    }
+
+    .legend .selected span {
+        background: #00b050;
+    }
+
+    .pay-section {
+        text-align: center;
+        margin-top: 25px;
+    }
+
+    .pay-btn {
+        background: #ff5a5a;
+        color: #fff;
+        border: none;
+        padding: 12px 60px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .pay-btn:hover {
+        background: #e14d4d;
+    }
