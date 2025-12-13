@@ -1,12 +1,38 @@
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 export const SheetShow = () => {
+
+
+  const [sheets, allSheetGet] = useState([]);
+
+  const navigate= useNavigate(); 
+
+  const navigateNextPage= () => {
+
+    navigate('/check_out');
+
+  }  
+
+  useEffect(() => {
+
+    fetch(`${import.meta.env.VITE_Bankend}/fetchAllSheet`)
+      .then((res) => res.json())
+      .then((data) => allSheetGet(data));
+
+  }, []);
+
+  // console.log(sheets);
+
 
   return (
 
     <>
       <div>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Seat Booking - Tron: Ares</title>
+
+        <Header />
         <div className="header">
           <div className="movie-info">
             <h2>Tron: Ares</h2>
@@ -26,16 +52,34 @@ export const SheetShow = () => {
 
           </div>
         </div>
-        <div className="legend">
-          <div><span /> Available</div>
-          <div className="selected"><span /> Selected</div>
-          <div className="sold"><span /> Sold</div>
-        </div>
-        <div className="pay-section">
-          <button className="pay-btn" id="payBtn">Pay ₹0</button>
-        </div>
-      </div>
+        <a href="">
+          <div className="legend">
+            <div style={{ display: "flex", flexWrap: "wrap", width: "260px" }}>
+              {sheets.map((sitplace, index) => (
+                <span
+                  key={index}
+                  style={{
+                    display: "inline-block",
+                    width: "20px",
+                    textAlign: "center",
+                    justifyContent: 'center',
+                    margin: "3px",
+                  }}
+                >
+                  {index + 1}
+                </span>
+              ))}
+            </div>
+          </div>
+        </a>
 
+        <a onClick={()=> navigateNextPage()}>
+          <div className="pay-section">
+            <button className="pay-btn" id="payBtn">Pay ₹0</button>
+          </div>
+        </a>
+      </div>
+      <Footer />
 
     </>
 

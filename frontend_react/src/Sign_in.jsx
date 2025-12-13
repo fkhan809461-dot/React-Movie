@@ -1,4 +1,29 @@
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 export const SignINForm = () => {
+
+  const [formData, setFormData] = useState();
+
+
+  const LoginSubmit= () => {
+
+    const {name,value} = e.target;
+
+    setFormData({ ...formData, [name]: value });
+
+  }
+
+  const HandelSubmit= () => {
+    console.log(formData);
+  }
+
+
+  
+  const navigateNextPage = useNavigate();
+  const SignUp= () => {
+  navigateNextPage('/sign_up');
+  }
   return (
 
     <div className="form-wrapper">
@@ -23,7 +48,7 @@ export const SignINForm = () => {
                     </div>
                   </a>
                   <div className="app-top-right-link">
-                    Already have an account?<a className="sidebar-register-link" href="sign_in.html">Sign In</a>
+                    Already have an account?<a className="sidebar-register-link" onClick={()=> SignUp ()} >Sign In</a>
                   </div>
                 </div>
               </div>
@@ -33,19 +58,19 @@ export const SignINForm = () => {
                     <h2 className="registration-title">Sign in to Barren</h2>
                     <div className="form-group mt-5">
                       <label className="form-label">Your Email*</label>
-                      <input className="form-control h_50" type="email" placeholder="Enter your email" defaultValue />
+                      <input className="form-control h_50" type="email" onChange={() => LoginSubmit()} placeholder="Enter your email" defaultValue />
                     </div>
                     <div className="form-group mt-4">
                       <div className="field-password">
                         <label className="form-label">Password*</label>
-                        <a className="forgot-pass-link" href="forgot_password.html">Forgot Password?</a>
+                        <a className="forgot-pass-link"  >Forgot Password?</a>
                       </div>
                       <div className="loc-group position-relative">
-                        <input className="form-control h_50" type="password" placeholder="Enter your password" />
+                        <input className="form-control h_50" type="password" onChange={() => LoginSubmit()} placeholder="Enter your password" />
                         <span className="pass-show-eye"><i className="fas fa-eye-slash" /></span>
                       </div>
                     </div>
-                    <button className="main-btn btn-hover w-100 mt-4" type="button" onclick="window.location.href='index.html'">Sign In <i className="fas fa-sign-in-alt ms-2" /></button>
+                    <button className="main-btn btn-hover w-100 mt-4" onClick={()=> HandelSubmit()} type="button">Sign In <i className="fas fa-sign-in-alt ms-2" /></button>
                   </form>
 
                   <div className="agree-text">

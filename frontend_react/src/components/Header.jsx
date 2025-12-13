@@ -1,30 +1,55 @@
-import {data, Link} from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import logo from "../assets/images/logo.svg";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
- 
+
+
+
 export const Header = () => {
 
+    const navigateNextPage = useNavigate();
+
+    const MoveIndexPage = () => {
+        navigateNextPage('/')
+    }
     const userEmail = localStorage.getItem("userName");
     const userName = localStorage.getItem("userEmail");
 
+    // consle.log(userEmail);
 
-    const [Datasession,LoginesDetails] = useState('');
+    const LogOutUser = () => {
 
-    useEffect(()=> {
-        fetch(`${import.meta.env.VITE_Bankend}/getSessionUser`,{
-          method: "GET",
-  credentials: "include",
+        localStorage.removeItem("userName");
+        localStorage.removeItem("userEmail");
+
+        navigateNextPage('/Sign_in');
+
+    }
+
+
+    const SignUp= () => {
+         navigateNextPage('/Sign_in');
+    }
+
+
+
+    const [Datasession, LoginesDetails] = useState('');
+
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_Bankend}/getSessionUser`, {
+            method: "GET",
+            credentials: "include",
         })
-        .then((res) => res.json())
-        .then((data)=> 
-          
+            .then((res) => res.json())
+            .then((data) =>
+
                 LoginesDetails(data),
-        )
-    },[])
+            )
+    }, [])
 
 
-   console.log("Session Data:", Datasession);
+    //    console.log("Session Data:", Datasession);
 
     return (
 
@@ -40,7 +65,7 @@ export const Header = () => {
                                     <i className="fa-solid fa-bars" />
                                 </span>
                             </button>
-                            <a className="navbar-brand order-1 order-lg-0 ml-lg-0 ml-2 me-auto" href="index.html">
+                            <a className="navbar-brand order-1 order-lg-0 ml-lg-0 ml-2 me-auto" onClick={() => MoveIndexPage()} >
                                 <div className="res-main-logo">
                                     <img src="./assets/images/logo-icon.svg" />
                                 </div>
@@ -73,7 +98,7 @@ export const Header = () => {
                                         </li>
                                         <li className="nav-item dropdown">
                                             <Link className="nav-link dropdown-toggle" to="/all_event" role="button" aria-expanded="false">
-                                               All Event
+                                                All Event
                                             </Link>
                                             {/* <ul className="dropdown-menu dropdown-submenu">
                                                 <li><a className="dropdown-item" href="explore_events.html">Explore Events</a></li>
@@ -88,65 +113,7 @@ export const Header = () => {
                                             <Link className="nav-link dropdown-toggle" to="/about_us" aria-expanded="false">
                                                 About
                                             </Link>
-                                            {/* <ul className="dropdown-menu dropdown-submenu">
-                                                <li><a className="dropdown-item" href="our_blog.html">Our Blog</a></li>
-                                                <li><a className="dropdown-item" href="blog_detail_view.html">Blog Detail View</a></li>
-                                            </ul> */}
                                         </li>
-                                        {/* <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Help
-                                            </a>
-                                            <ul className="dropdown-menu dropdown-submenu">
-                                                <li><a className="dropdown-item" href="faq.html">FAQ</a></li>
-                                                <li><a className="dropdown-item" href="help_center.html">Help Center</a></li>
-                                                <li><a className="dropdown-item" href="contact_us.html">Contact Us</a></li>
-                                            </ul>
-                                        </li> */}
-                                        {/* <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Pages
-                                            </a>
-                                            <ul className="dropdown-menu dropdown-submenu">
-                                                <li>
-                                                    <a className="dropdown-item submenu-item" href="#">Other Pages</a>
-                                                    <ul className="submenu dropdown-menu">
-                                                        <li><a className="dropdown-item pe-5" href="sign_in.html">Sign In</a></li>
-                                                        <li><a className="dropdown-item pe-5" href="sign_up.html">Sign Up</a></li>
-                                                        <li><a className="dropdown-item pe-5" href="forgot_password.html">Forgot Password</a></li>
-                                                        <li><a className="dropdown-item pe-5" href="about_us.html">About Us</a></li>
-                                                        <li><a className="dropdown-item pe-5" href="checkout.html">Checkout</a></li>
-                                                        <li><a className="dropdown-item pe-5" href="checkout_premium.html">Checkout Premium</a></li>
-                                                        <li><a className="dropdown-item pe-5" href="invoice.html">Invoice</a></li>
-                                                        <li><a className="dropdown-item pe-5" href="coming_soon.html">Coming Soon</a></li>
-                                                        <li><a className="dropdown-item pe-5" href="error_404.html">Error 404</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a className="dropdown-item submenu-item" href="#">Create Event</a>
-                                                    <ul className="submenu dropdown-menu">
-                                                        <li><a className="dropdown-item pe-5" href="create.html">Create</a></li>
-                                                        <li><a className="dropdown-item pe-5" href="create_venue_event.html">Create Venue Event</a></li>
-                                                        <li><a className="dropdown-item pe-5" href="create_online_event.html">Create Online Event</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a className="dropdown-item submenu-item" href="#">Events View</a>
-                                                    <ul className="submenu dropdown-menu">
-                                                        <li><a className="dropdown-item pe-5" href="online_event_detail_view.html">Online Event Detail View</a></li>
-                                                        <li><a className="dropdown-item pe-5" href="venue_event_detail_view.html">Venue Event Detail View</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a className="dropdown-item" href="booking_confirmed.html">Booking Confirmed</a></li>
-                                                <li><a className="dropdown-item" href="attendee_profile_view.html">Attendee Profile View</a></li>
-                                                <li><a className="dropdown-item" href="organiser_profile_view.html">Organiser Profile View</a></li>
-                                                <li><a className="dropdown-item" href="my_organisation_dashboard.html">Organization Dashboard</a></li>
-                                                <li><a className="dropdown-item" href="sell_tickets_online.html">Sell Tickets Online</a></li>
-                                                <li><a className="dropdown-item" href="refer_a_friend.html">Refer a Friend</a></li>
-                                                <li><a className="dropdown-item" href="term_and_conditions.html">Terms &amp; Conditions</a></li>
-                                                <li><a className="dropdown-item" href="privacy_policy.html">Privacy Policy</a></li>
-                                            </ul>
-                                        </li> */}
                                     </ul>
                                 </div>
                                 <div className="offcanvas-footer">
@@ -185,17 +152,38 @@ export const Header = () => {
                                                     <p>{userName}</p>
                                                 </div>
                                             </li>
-                                            <li className="profile-link">
-                                                <a href="my_organisation_dashboard.html" className="link-item">My Organisation</a>
-                                                <Link to="/profile_user" className="link-item">My Profile</Link>
-                                                <a href="sign_in.html" className="link-item">Sign Out</a>
-                                            </li>
+
+ 
+                                               
+                                            {userName ? (
+
+
+
+
+                                                <li className="profile-link">
+                                                    <a href="my_organisation_dashboard.html" className="link-item">My Organisation</a>
+                                                    <Link to="/profile_user" className="link-item">My Profile</Link>
+                                                    <a onClick={() => LogOutUser()} className="link-item">Sign Out</a>
+                                                </li>
+
+                                            ) :
+
+
+                                                <li className="profile-link">
+                                                    <a href="my_organisation_dashboard.html" className="link-item">My Organisation</a>
+                                                    <Link to="/profile_user" className="link-item">My Profile</Link>
+                                                    <a role="button" onClick={()=> SignUp()} className="link-item">Sign up</a>
+                                                </li>
+
+                                            }
+
+
                                         </ul>
                                     </li>
 
 
 
-                            
+
                                 </ul>
                             </div>
                         </div>

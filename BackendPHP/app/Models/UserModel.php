@@ -27,4 +27,18 @@ class UserModel extends Model
 
         $this->insert($data);
     }
+
+
+    public function checkUser($email, $password)
+    {
+
+        $bulder =  $this->table('user');
+        $bulder->where('email', $email);
+        $bulder->where('password', $password);
+        $query = $bulder->get();
+
+        if ($query->getNumRows() > 0) {
+            return true;
+        }
+    }
 }
