@@ -6731,6 +6731,8 @@ input[type=number]::-webkit-inner-spin-button {
         border: 2px solid #00b050;
         border-radius: 4px;
         margin-right: 5px;
+        justify-content: center;
+align-items: center;
     }
 
     .legend .sold span {

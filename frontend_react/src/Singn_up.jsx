@@ -1,7 +1,15 @@
 import { useState } from "react"
+import { useNavigate} from "react-router-dom";
+
 // import Swal  from "sweetalert2";
 
 export const Sign_up = () => {
+
+  const   navigationSingIn =useNavigate();
+
+  const SingnIn =() => {
+    navigationSingIn('/sign_in');
+  }
 
   const [allDataArray, storeData] = useState([]);
   const [errors, setNameError] = useState({});
@@ -95,7 +103,7 @@ export const Sign_up = () => {
                       </div>
                     </a>
                     <div className="app-top-right-link">
-                      Already have an account?<a className="sidebar-register-link" href="sign_in.html">Sign In</a>
+                      Already have an account?<a className="sidebar-register-link"  onClick={()=> SingnIn()}>Sign In</a>
                     </div>
                   </div>
                 </div>

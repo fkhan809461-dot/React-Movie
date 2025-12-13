@@ -2,7 +2,7 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { useEffect, useState } from "react";
 import { data } from "react-router-dom";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const IndexPage = () => {
 
@@ -17,11 +17,11 @@ export const IndexPage = () => {
   }, []);
 
 
-      const MovieMoveId = (id) => {
-            
-             navigate(`/venues/${id}`);
+  const MovieMoveId = (id) => {
 
-    }
+    navigate(`/venues/${id}`);
+
+  }
 
   return (
     <>
@@ -99,13 +99,13 @@ export const IndexPage = () => {
 
                                 <div className="main-card mt-4">
                                   <div className="event-thumbnail">
-                                    <a onClick={()=>MovieMoveId(movies.id)} className="thumbnail-img">
-                                     <img src={`/assets/images/event-imgs/${movies.movie_poster}`} alt="Jolly" />
+                                    <a onClick={() => MovieMoveId(movies.id)} className="thumbnail-img">
+                                      <img src={`/assets/images/event-imgs/${movies.movie_poster}`} alt="Jolly" />
                                     </a>
                                     <span className="bookmark-icon" title="Bookmark" />
                                   </div>
                                   <div className="event-content">
-                                    <a href="venue_event_detail_view.html" className="event-title">{movies.title}</a>
+                                    <a href="" className="event-title">{movies.title}</a>
                                     <div className="duration-price-remaining">
                                       <span className="duration-price">Language:- {movies.language}</span>
                                       <span className="remaining" />
@@ -127,205 +127,6 @@ export const IndexPage = () => {
                             ))
                           }
 
-
-
-                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix business workshops volunteer sports health_Wellness" data-ref="mixitup-target">
-                            <div className="main-card mt-4">
-                              <div className="event-thumbnail">
-                                <a href="online_event_detail_view.html" className="thumbnail-img">
-                                  <img src="./assets/images/event-imgs/img-2.jpg" />
-                                </a>
-                                <span className="bookmark-icon" title="Bookmark" />
-                              </div>
-                              <div className="event-content">
-                                <a href="online_event_detail_view.html" className="event-title">Earrings Workshop with Bronwyn David</a>
-                                <div className="duration-price-remaining">
-                                  <span className="duration-price">AUD $75.00*</span>
-                                  <span className="remaining"><i className="fa-solid fa-ticket fa-rotate-90" />6 Remaining</span>
-                                </div>
-                              </div>
-                              <div className="event-footer">
-                                <div className="event-timing">
-                                  <div className="publish-date">
-                                    <span><i className="fa-solid fa-calendar-day me-2" />30 Apr</span>
-                                    <span className="dot"><i className="fa-solid fa-circle" /></span>
-                                    <span>Sat, 11.20 PM</span>
-                                  </div>
-                                  <span className="publish-time"><i className="fa-solid fa-clock me-2" />2h</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
-                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix coaching_consulting free concert volunteer health_Wellness bussiness" data-ref="mixitup-target">
-                            <div className="main-card mt-4">
-                              <div className="event-thumbnail">
-                                <a href="venue_event_detail_view.html" className="thumbnail-img">
-                                  <img src="./assets/images/event-imgs/img-3.jpg"
-                                  />
-                                </a>
-                                <span className="bookmark-icon" title="Bookmark" />
-                              </div>
-                              <div className="event-content">
-                                <a href="venue_event_detail_view.html" className="event-title">Spring Showcase Saturday April 30th 2022 at 7pm</a>
-                                <div className="duration-price-remaining">
-                                  <span className="duration-price">Free*</span>
-                                  <span className="remaining" />
-                                </div>
-                              </div>
-                              <div className="event-footer">
-                                <div className="event-timing">
-                                  <div className="publish-date">
-                                    <span><i className="fa-solid fa-calendar-day me-2" />1 May</span>
-                                    <span className="dot"><i className="fa-solid fa-circle" /></span>
-                                    <span>Sun, 4.30 PM</span>
-                                  </div>
-                                  <span className="publish-time"><i className="fa-solid fa-clock me-2" />3h</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
-                          {/* <div className=" col-xl-3 col-lg-4 col-md-6 col-sm-12 mix health_Wellness concert volunteer sports free business" data-ref="mixitup-target">
-                            <div className="main-card mt-4">
-                              <div className="event-thumbnail">
-                                <a href="online_event_detail_view.html" className="thumbnail-img">
-                                  <img src="./assets/images/event-imgs/img-4.jpg"
-                                  />
-                                </a>
-                                <span className="bookmark-icon" title="Bookmark" />
-                              </div>
-                              <div className="event-content">
-                                <a href="online_event_detail_view.html" className="event-title">Shutter Life</a>
-                                <div className="duration-price-remaining">
-                                  <span className="duration-price">AUD $85.00</span>
-                                  <span className="remaining"><i className="fa-solid fa-ticket fa-rotate-90" />7 Remaining</span>
-                                </div>
-                              </div>
-                              <div className="event-footer">
-                                <div className="event-timing">
-                                  <div className="publish-date">
-                                    <span><i className="fa-solid fa-calendar-day me-2" />1 May</span>
-                                    <span className="dot"><i className="fa-solid fa-circle" /></span>
-                                    <span>Sun, 5.30 PM</span>
-                                  </div>
-                                  <span className="publish-time"><i className="fa-solid fa-clock me-2" />1h</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
-                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix concert sports health_Wellness free arts" data-ref="mixitup-target">
-                            <div className="main-card mt-4">
-                              <div className="event-thumbnail">
-                                <a href="venue_event_detail_view.html" className="thumbnail-img">
-                                  <img src="./assets/images/
-/event-imgs/img-5.jpg"
-                                  />
-                                </a>
-                                <span className="bookmark-icon" title="Bookmark" />
-                              </div>
-                              <div className="event-content">
-                                <a href="venue_event_detail_view.html" className="event-title">Friday Night Dinner at The Old Station May 27 2022</a>
-                                <div className="duration-price-remaining">
-                                  <span className="duration-price">AUD $41.50*</span>
-                                  <span className="remaining" />
-                                </div>
-                              </div>
-                              <div className="event-footer">
-                                <div className="event-timing">
-                                  <div className="publish-date">
-                                    <span><i className="fa-solid fa-calendar-day me-2" />27 May</span>
-                                    <span className="dot"><i className="fa-solid fa-circle" /></span>
-                                    <span>Fri, 12.00 PM</span>
-                                  </div>
-                                  <span className="publish-time"><i className="fa-solid fa-clock me-2" />5h</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
-                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix workshops concert arts volunteer sports" data-ref="mixitup-target">
-                            <div className="main-card mt-4">
-                              <div className="event-thumbnail">
-                                <a href="venue_event_detail_view.html" className="thumbnail-img">
-                                  <img src="./assets/images/
-/event-imgs/img-6.jpg"  />
-                                </a>
-                                <span className="bookmark-icon" title="Bookmark" />
-                              </div>
-                              <div className="event-content">
-                                <a href="venue_event_detail_view.html" className="event-title">Step Up Open Mic Show</a>
-                                <div className="duration-price-remaining">
-                                  <span className="duration-price">AUD $200.00*</span>
-                                  <span className="remaining" />
-                                </div>
-                              </div>
-                              <div className="event-footer">
-                                <div className="event-timing">
-                                  <div className="publish-date">
-                                    <span><i className="fa-solid fa-calendar-day me-2" />30 Jun</span>
-                                    <span className="dot"><i className="fa-solid fa-circle" /></span>
-                                    <span>Thu, 4.30 PM</span>
-                                  </div>
-                                  <span className="publish-time"><i className="fa-solid fa-clock me-2" />1h</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
-                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix volunteer free health_Wellness" data-ref="mixitup-target">
-                            <div className="main-card mt-4">
-                              <div className="event-thumbnail">
-                                <a href="online_event_detail_view.html" className="thumbnail-img">
-                                  <img src="./assets/images/
-/event-imgs/img-7.jpg"  />
-                                </a>
-                                <span className="bookmark-icon" title="Bookmark" />
-                              </div>
-                              <div className="event-content">
-                                <a href="online_event_detail_view.html" className="event-title">Tutorial on Canvas Painting for Beginners</a>
-                                <div className="duration-price-remaining">
-                                  <span className="duration-price">AUD $50.00*</span>
-                                  <span className="remaining"><i className="fa-solid fa-ticket fa-rotate-90" />17 Remaining</span>
-                                </div>
-                              </div>
-                              <div className="event-footer">
-                                <div className="event-timing">
-                                  <div className="publish-date">
-                                    <span><i className="fa-solid fa-calendar-day me-2" />17 Jul</span>
-                                    <span className="dot"><i className="fa-solid fa-circle" /></span>
-                                    <span>Sun, 5.30 PM</span>
-                                  </div>
-                                  <span className="publish-time"><i className="fa-solid fa-clock me-2" />1h</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
-                          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix sports concert volunteer arts" data-ref="mixitup-target">
-                            <div className="main-card mt-4">
-                              <div className="event-thumbnail">
-                                <a href="venue_event_detail_view.html" className="thumbnail-img">
-                                  <img src="./assets/images/
-/event-imgs/img-8.jpg"
-                                  />
-                                </a>
-                                <span className="bookmark-icon" title="Bookmark" />
-                              </div>
-                              <div className="event-content">
-                                <a href="venue_event_detail_view.html" className="event-title">Trainee Program on Leadership' 2022</a>
-                                <div className="duration-price-remaining">
-                                  <span className="duration-price">AUD $120.00*</span>
-                                  <span className="remaining"><i className="fa-solid fa-ticket fa-rotate-90" />7 Remaining</span>
-                                </div>
-                              </div>
-                              <div className="event-footer">
-                                <div className="event-timing">
-                                  <div className="publish-date">
-                                    <span><i className="fa-solid fa-calendar-day me-2" />20 Jul</span>
-                                    <span className="dot"><i className="fa-solid fa-circle" /></span>
-                                    <span>Wed, 11.30 PM</span>
-                                  </div>
-                                  <span className="publish-time"><i className="fa-solid fa-clock me-2" />12h</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
                         </div>
                         <div className="browse-btn">
                           <a href="explore_events.html" className="main-btn btn-hover ">Browse All</a>

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use PhpParser\Builder\Function_;
 
 class Home extends BaseController
 {
@@ -34,6 +35,20 @@ class Home extends BaseController
 
         return $this->response->setJSON(['success' => true, 'data' =>$data]);
     }
+}
+
+
+
+
+public function AllreadyLogin(){
+$data= $this->request->getJSON(true);
+
+print_r($data); die;
+
+  $user_model = new UserModel;
+ $user_id = $user_model->checkUser($email,$password);
+
+
 }
 
 

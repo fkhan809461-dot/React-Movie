@@ -369,7 +369,7 @@ const navigate= useNavigate();
                                         {!userEmail ? (
 
                                             <div className="booking-btn">
-                                                <a href="/check_out" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" className="main-btn btn-hover w-100">Book Now</a>
+                                                <a  data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" className="main-btn btn-hover w-100">Book Now</a>
                                             </div>
                                         ) : (
                                             <div className="booking-btn">
