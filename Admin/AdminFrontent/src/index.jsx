@@ -1,5 +1,6 @@
 
 import {AdminHeader} from "./components/header"
+import { Navbar} from "./components/NavBar"
 
 export const IndexAdmin = () => {
 
@@ -7,12 +8,13 @@ export const IndexAdmin = () => {
      
         <>
         <AdminHeader/>
+        <Navbar/>
             <div>
   {/* Mirrored from www.gambolthemes.net/html-items/barren-html/disable-demo-link/my_organisation_dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 15 May 2025 16:41:57 GMT */}
   
   {/* Header End*/}
   {/* Left Sidebar Start */}
-  <nav className="vertical_nav">
+  {/* <nav className="vertical_nav">
     <div className="left_section menu_left" id="js-menu">
       <div className="left_section">
         <ul>
@@ -79,7 +81,7 @@ export const IndexAdmin = () => {
         </ul>
       </div>
     </div>
-  </nav>
+  </nav> */}
   {/* Left Sidebar End */}
   {/* Body Start */}
   <div className="wrapper wrapper-body">

@@ -2,6 +2,7 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { useEffect, useState } from "react";
 import { data, useNavigate, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 
@@ -10,6 +11,10 @@ export const BookNow = () => {
   const [allDataArray, storeData] = useState([]);
   const [errors, setNameError] = useState({});
   const { id } = useParams();
+
+    const { state } = useLocation();
+    const totalAmount = state?.totalAmount || 0;
+  const selectedSeats = state?.selectedSeats || [];
 
   const navigate = useNavigate();
 
@@ -228,7 +233,9 @@ export const BookNow = () => {
                     </div>
                     <div className="main-card mt-5">
                       <div className="bp-title">
-                        <h4>Ticket Amount : AUD $50.00</h4>
+                        
+                        <h4>Ticket Amount : AUD ${totalAmount}</h4>
+
                       </div>
                       <div className="bp-content bp-form">
                         <div className="row">
@@ -277,16 +284,16 @@ export const BookNow = () => {
                       <div className="order-total-block">
                         <div className="order-total-dt">
                           <div className="order-text">Total Ticket</div>
-                          <div className="order-number">1</div>
+                          <div className="order-number">{selectedSeats.length}</div>
                         </div>
                         <div className="order-total-dt">
                           <div className="order-text">Sub Total</div>
-                          <div className="order-number">$50.00</div>
+                          <div className="order-number">₹{totalAmount}</div>
                         </div>
                         <div className="divider-line" />
                         <div className="order-total-dt">
                           <div className="order-text">Total</div>
-                          <div className="order-number ttl-clr">AUD $50.00</div>
+                          <div className="order-number ttl-clr">₹{totalAmount}</div>
                         </div>
                       </div>
                       <div className="coupon-code-block">
