@@ -12,3 +12,4 @@ $routes->get('getMoviesDetails/(:any)','Movie::getMoviesDetails/$1');
 $routes->get('getSessionUser','Home::getSessionUser');
 $routes->get('fetchAllSheet','SheetCtrl::fetchAllSheet');
 $routes->get('AllreadyLogin','Home::AllreadyLogin');
+$routes->get('SheetAllreadyBook','SheetCtrl::sheetBookCtrl');

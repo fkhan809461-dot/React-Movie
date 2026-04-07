@@ -1,7 +1,20 @@
 
 
 import '../assets/vendor/bootstrap/css/bootstrap.min.css';
-import '../css/style.css'
+import '../assets/css/style.css'
+import '../assets/css/style.css'
+import '../assets/css/vertical-responsive-menu.min.css'
+import '../assets/css/analytics.css'
+import '../assets/css/responsive.css'
+// import '../assets/css/night-mode.css'
+import '../assets/vendor/fontawesome-free/css/all.min.css'
+import '../assets/vendor/OwlCarousel/assets/owl.carousel.css'
+import '../assets/vendor/OwlCarousel/assets/owl.theme.default.min.css'
+import '../assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css'
+import '../assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css'
+import '../assets/vendor/chartist/dist/chartist.min.css'
+import '../assets/vendor/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.css'  
+import '../assets/vendor/unicons-2.0.1/css/unicons.css'
 
 export const AdminHeader = () => {
     return (
@@ -18,21 +31,8 @@ export const AdminHeader = () => {
   {/* Stylesheets */}
   <link rel="preconnect" href="https://fonts.googleapis.com/" />
   <link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
-  <link href="vendor/unicons-2.0.1/css/unicons.css" rel="stylesheet" />
-  <link href="css/style.css" rel="stylesheet" />
-  <link href="css/vertical-responsive-menu.min.css" rel="stylesheet" />
-  <link href="css/analytics.css" rel="stylesheet" />
-  <link href="css/responsive.css" rel="stylesheet" />
-  <link href="css/night-mode.css" rel="stylesheet" />
-  {/* Vendor Stylesheets */}
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
-  <link href="vendor/OwlCarousel/assets/owl.carousel.css" rel="stylesheet" />
-  <link href="vendor/OwlCarousel/assets/owl.theme.default.min.css" rel="stylesheet" />
-  {/* <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" /> */}
-  <link href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />	
-  <link href="vendor/chartist/dist/chartist.min.css" rel="stylesheet" />
-  <link href="vendor/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" /> 
+
   {/* Add Organisation Model Start*/}
   <div className="modal fade" id="addorganisationModal" tabIndex={-1} aria-labelledby="addorganisationLabel" aria-hidden="true">
     <div className="modal-dialog modal-lg">
