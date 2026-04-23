@@ -1,9 +1,46 @@
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 
+import { useState } from "react";
+
+
 
 
 export const ContactPage = () => {
+
+	const [allDataArray, storeData] = useState({});
+
+	  const contactPageData = (e) => {
+
+    const { name, value } = e.target;
+
+
+    // const removeSpace = value.replace(/^\s+/, "");
+  storeData((prev) => ({
+    ...prev,
+    [name]: value,
+  }))
+
+  }
+
+  const HandelEvent = () => {
+	
+   
+      fetch(`${import.meta.env.VITE_Bankend}/contactUs`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(allDataArray),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+        console.log(data);
+    
+        })
+console.log(allDataArray);
+  }
+
 
 	return (
 		<>
@@ -48,36 +85,36 @@ export const ContactPage = () => {
 														<div className="col-md-6">
 															<div className="form-group mt-4">
 																<label className="form-label">First Name*</label>
-																<input className="form-control h_50" type="text" placeholder defaultValue />
+																<input className="form-control h_50" type="text" name= 'name' onChange={contactPageData}  defaultValue />
 															</div>
 														</div>
 														<div className="col-md-6">
 															<div className="form-group mt-4">
 																<label className="form-label">Last Name*</label>
-																<input className="form-control h_50" type="text" placeholder defaultValue />
+																<input className="form-control h_50" type="text" name= 'lastName' onChange={contactPageData}  defaultValue />
 															</div>
 														</div>
 														<div className="col-md-6">
 															<div className="form-group mt-4">
 																<label className="form-label">Email*</label>
-																<input className="form-control h_50" type="Email" placeholder defaultValue />
+																<input className="form-control h_50" type="Email" name= 'email' onChange={contactPageData}  defaultValue />
 															</div>
 														</div>
 														<div className="col-md-6">
 															<div className="form-group mt-4">
 																<label className="form-label">Phone*</label>
-																<input className="form-control h_50" type="text" placeholder defaultValue />
+																<input className="form-control h_50" type="text" name= 'phone' onChange={contactPageData}  defaultValue />
 															</div>
 														</div>
 														<div className="col-md-12">
 															<div className="form-group mt-4">
 																<label className="form-label">Message*</label>
-																<textarea className="form-textarea" placeholder="About" defaultValue={""} />
+																<textarea className="form-textarea" name= 'message' onChange={contactPageData} defaultValue={""} />
 															</div>
 														</div>
 														<div className="col-md-12">
 															<div className="text-center mt-4">
-																<button className="main-btn btn-hover h_50 w-100" type="submit">Submit</button>
+																<button className="main-btn btn-hover h_50 w-100" onClick={() => HandelEvent ()} type="submit">Submit</button>
 															</div>
 														</div>
 													</div>

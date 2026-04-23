@@ -4,13 +4,25 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
- use App\Models\MovieModel;
+use App\Models\MovieModel;
 
 class Movie extends BaseController
 {
 
+
+
     public function __construct(){
         $this->moviesModel= new MovieModel();
+
+
+ 
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+
+
+
+
     }
 
     public function fetchAllMovies()

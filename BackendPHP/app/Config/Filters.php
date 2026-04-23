@@ -27,7 +27,7 @@ class Filters extends BaseFilters
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        'cors'          => \App\Filters\Cors::class, // ✅ Added here
+        'cors'          => \App\Filters\Cors::class,
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
@@ -54,7 +54,7 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
-            'cors', // ✅ Enable CORS globally
+            'cors', 
         ],
         'after' => [
             // 'secureheaders',

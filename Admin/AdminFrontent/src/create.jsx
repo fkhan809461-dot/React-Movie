@@ -1,5 +1,6 @@
 ﻿import {AdminHeader} from "./components/header"
 import { Navbar} from "./components/NavBar"
+import { Link , data } from "react-router-dom"
 
 export const CreateEvent= () => {
 	return (
@@ -42,8 +43,9 @@ export const CreateEvent= () => {
 										<div class="create-icon">
 											<i class="fa-solid fa-video"></i>
 										</div>
-										<h4>Create an Online Event</h4>
-										<a href="create_online_event.html" class="main-btn btn-hover h_40 w-100">Create<i class="fa-solid fa-arrow-right ms-2"></i></a>
+										<h4>Create an Event</h4>
+										<a href="/create_event" class="main-btn btn-hover h_40 w-100">Create<i class="fa-solid fa-arrow-right ms-2"></i></a>
+
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -51,8 +53,8 @@ export const CreateEvent= () => {
 										<div class="create-icon">
 											<i class="fa-solid fa-location-dot"></i>
 										</div>
-										<h4>Create an Venue Event</h4>
-										<a href="create_venue_event.html" class="main-btn btn-hover h_40 w-100">Create<i class="fa-solid fa-arrow-right ms-2"></i></a>
+										<h4>Create an Event Venue </h4>
+										<a href="/create_venues" class="main-btn btn-hover h_40 w-100">Create<i class="fa-solid fa-arrow-right ms-2"></i></a>
 									</div>
 								</div>
 							</div>
