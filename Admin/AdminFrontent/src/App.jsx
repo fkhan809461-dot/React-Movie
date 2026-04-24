@@ -8,7 +8,8 @@ import { About_us } from './admin_about'
 import { Events } from './events'
 import { Reports } from './reports'
 import {CreateEvent} from './create'
-import {Createevenous} from './createevents'
+import {CreateVenues} from './create_venues'
+import {CreatesEvent} from './create_event'
 import './App.css'
 
 function App() {
@@ -23,7 +24,9 @@ function App() {
           <Route path="/events" element={<Events />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/createEvent" element={<CreateEvent />} />
-          <Route path="/createevents" element={<Createevenous />} />
+          <Route path="/create_event" element={<CreatesEvent />} />
+          
+           <Route path="/create_venues" element={<CreateVenues />} />
 
         </Routes>
       </Router>

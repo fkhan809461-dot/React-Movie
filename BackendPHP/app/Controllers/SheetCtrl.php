@@ -9,7 +9,14 @@ use App\Models\SheetBooking;
 
 class SheetCtrl extends BaseController
 {
+
    public function __construct(){
+
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+
+
         $this->moviesModel= new SheetModel();
        $this->BookingSheetModel= new SheetBooking(); 
     }
