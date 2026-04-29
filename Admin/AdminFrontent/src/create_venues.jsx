@@ -10,14 +10,7 @@ export const CreateVenues = () =>{
 
   const [allData, setData] = useState({});
   const [errors, setErrors] = useState({});
-  // const [successMsg, setSuccessMsg] = useState("");
-// const [formData, setFormData] = useState({
-//   name: "",
-//   address: "",
-//   state: "",
-//   city: "",
-//   post_code: "",
-// });  
+
 
 
 
@@ -35,24 +28,6 @@ export const CreateVenues = () =>{
   }
 
 
-  // const HandleEvent = () => {
-	
-   
-  //     // fetch(`${import.meta.env.VITE_Bankend}/createVenus`, {
-  //     fetch('http://localhost:8080/createVenus', {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(allData),
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //       console.log(data);
-    
-  //       })
-  //      console.log(allData);
-  // }
 
 
   const HandleEvent = async () => {

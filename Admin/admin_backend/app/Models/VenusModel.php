@@ -32,6 +32,10 @@ class VenusModel extends Model
     }
 
 
+    public function getAllVenus()
+    {
+        return $this->findAll();
+    }
 
 
 }

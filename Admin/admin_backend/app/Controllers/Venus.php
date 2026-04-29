@@ -53,4 +53,17 @@ class Venus extends BaseController
                   'message' => 'Venue created successfully!'
             ]);
     }
+
+
+    // public function getAllVenus()
+    // {
+    //     $venues = $this->venusModel->getAllVenus();
+
+    //     return $this->response
+    //         ->setContentType('application/json')
+    //         ->setJSON([
+    //             'status' => 'success',
+    //             'data'   => $venues,
+    //         ]);
+    // }
 }

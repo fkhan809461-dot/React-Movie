@@ -23,5 +23,6 @@ $routes->get('/', 'Home::index');
 
 $routes->options('createVenus', 'Venus::createVenus'); //
 $routes->post('createVenus', 'Venus::createVenus');
-
-// $routes->get('createVenus', 'Venus::createVenus');
+$routes->options('createEvent', 'EventCtrl::createEvent');
+$routes->post('createEvent', 'EventCtrl::createEvent');
+$routes->get('getAllVenus', 'EventCtrl::getAllVenus');
