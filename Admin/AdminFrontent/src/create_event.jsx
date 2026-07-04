@@ -8,92 +8,101 @@ import { useEffect } from "react"
 
 
 export const CreatesEvent = () => {
-    
-    const [venues, setVenues] = useState([]);
-    const [allData, setData] = useState({});
-    const [errors, setErrors] = useState({});
+
+  const [venues, setVenues] = useState([]);
+
+  const [allData, setData] = useState({
+    title: "",
+    description: "",
+    category: "",
+    venue_id: "",
+    start_date: "",
+    image: null,
+  });
+
+  const [errors, setErrors] = useState({});
 
 
-          useEffect(() => {
-  fetch("http://localhost:8080/getAllVenus")
-    .then((res) => res.json())
-    .then((data) => {
-        // alert('Venues fetched successfully!')
-      console.log(data);
+  // get venues
+  useEffect(() => {
 
-      setVenues(data.data);
-    })
-    .catch((err) => {
-      console.log(err);
+    fetch("http://localhost:8080/getAllVenus")
+      .then((res) => res.json())
+      .then((data) => setVenues(data.data))
+      .catch((err) => console.log(err));
+
+  }, []);
+
+
+  // input handler
+  const VenusPageData = (e) => {
+
+    const { name, value, files, type } = e.target;
+
+    setData({
+      ...allData,
+
+      [name]:
+        type === "file"
+          ? files[0]
+          : value,
     });
-}, []);
+  };
 
 
-    const VenusPageData = (e) => {
+  // submit form
+  const HandleEvent = async () => {
 
-    const { name, value } = e.target;
-  setData((prev) => ({
-    ...prev,
-    [name]: value,
-  }))
+    const formData = new FormData();
 
+    Object.keys(allData).forEach((key) => {
+      formData.append(key, allData[key]);
+    });
 
-  }
+    try {
 
-
-
-    
-    const HandleEvent = async () => {
-      try {
-        const res = await fetch('http://localhost:8080/createEvent', {
+      const res = await fetch(
+        "http://localhost:8080/createEvent",
+        {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(allData),
-        });
-    
-        const data = await res.json();
-        console.log(data.errors);
-    
-         if (data.status === "error") {
-        setErrors(data.errors); 
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
+
+      // validation errors
+      if (data.status === "error") {
+
+        setErrors(data.errors);
+
         return;
       }
-    
-        if (data.status === "success") {
-     alert('Event created successfully!')
-      }
-    
+
+      // success
+      alert("Event created successfully!");
+
+      // reset form
       setData({
-      title: "",
-      description: "",
-      category: "",
-      venue_id: ""
-    });
-      
-    
-    
-      if (data.status !== "error") {
-      setData({});    
-      setErrors({});   
+        title: "",
+        description: "",
+        category: "",
+        venue_id: "",
+        start_date: "",
+        image: null,
+      });
+
+      // clear errors
+      setErrors({});
+
+    } catch (error) {
+
+      console.log(error);
+
     }
-      } 
-      
-      catch (error) {
-        // This will show the REAL error message
-        console.error("Error details:", error);
-      }
-    
-      console.log(allData);
+  };
 
-
-
-
-
-
-    
-    };
+// };
 
     
     return (
@@ -150,7 +159,7 @@ export const CreatesEvent = () => {
                                                                                     <div className="col-md-6">
                                                                                         <div className="form-group mt-1">
                              <label className="form-label fs-6">Title*</label>
-                              <input className="form-control h_50" onChange={VenusPageData} value={allData.title || ""} name="title" type="text" placeholder />
+                              <input className="form-control h_50" onChange={VenusPageData} value={allData.title || ""} name="title" type="text" placeholder="Enter event title" />
 
  {errors?.title && (
       <small style={{ color: "red" }}>{errors.title}</small>
@@ -161,7 +170,7 @@ export const CreatesEvent = () => {
                                                                                     <div className="col-md-6">
                                                                                         <div className="form-group mt-1">
                              <label className="form-label fs-6">Description</label>
-                             <input className="form-control h_50" onChange={VenusPageData} value={allData.description || ""} name="description"  type="text" placeholder />
+                             <input className="form-control h_50" onChange={VenusPageData} value={allData.description || ""} name="description"  type="text" placeholder="Enter event description" />
 
  {errors?.description && (
       <small style={{ color: "red" }}>{errors.description}</small>
@@ -173,7 +182,7 @@ export const CreatesEvent = () => {
                                                                                     <div className="col-md-6">
                                                                                         <div className="form-group mt-1">
                               <label className="form-label fs-6">Category</label>
-                            <input className="form-control h_50" onChange={VenusPageData} value={allData.category || ""} name="category" type="text" placeholder />
+                            <input className="form-control h_50" onChange={VenusPageData} value={allData.category || ""} name="category" type="text" placeholder="Enter event category" />
                              {errors?.category && (
       <small style={{ color: "red" }}>{errors.category}</small>
     )}
@@ -183,7 +192,6 @@ export const CreatesEvent = () => {
                                                                                               <div className="col-md-6">
                                                                                         <div className="form-group mt-1">
                           <label className="form-label fs-6">Event Location</label>
-                           {/* <input className="form-control h_50" onChange={VenusPageData} value={allData.venue_id || ""} name="venue_id" type="text" placeholder />  */}
 
         <select
     className="form-control h_50"
@@ -204,9 +212,7 @@ export const CreatesEvent = () => {
       <small style={{ color: "red" }}>{errors.venue_id}</small>
     )}
 
-    {/* <option value="2">Delhi</option>
-    <option value="3">Mumbai</option>
-    <option value="4">Bangalore</option> */}
+  
   </select>
 
 
@@ -215,6 +221,34 @@ export const CreatesEvent = () => {
 
                                                                                         </div>
                                                                                     </div>
+
+
+
+      <div className="col-md-6">
+                                                                                        <div className="form-group mt-1">
+                              <label className="form-label fs-6">Event Time </label>
+                            <input className="form-control h_50" onChange={VenusPageData} value={allData.start_date || ""} name="start_date" type="datetime-local" placeholder="Select event time" />
+                             {errors?.start_date && (
+      <small style={{ color: "red" }}>{errors.start_date}</small>
+    )}
+
+                                                                                        </div>
+                                                                                    </div>
+
+
+
+
+                  <div className="col-md-6">
+                                                                                        <div className="form-group mt-1">
+                              <label className="form-label fs-6">Uplode Event Poster</label>
+                            <input onChange={VenusPageData}  name="image" type="file" placeholder="Upload event poster" />
+                             {errors?.image && (
+      <small style={{ color: "red" }}>{errors.image}</small>
+    )}
+
+                                                                                        </div>
+                                                                                    </div>
+
 
                                                                                     <div className="col-lg-6 col-md-12">
 

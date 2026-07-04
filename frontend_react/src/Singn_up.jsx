@@ -13,6 +13,7 @@ export const Sign_up = () => {
 
   const [allDataArray, storeData] = useState([]);
   const [errors, setNameError] = useState({});
+  // const [emailExistError, setEmailExistError] = useState("");
 
 
   const signUpData = (e) => {
@@ -38,13 +39,10 @@ export const Sign_up = () => {
     if (!allDataArray.name || allDataArray.name.length < 5) {
 
       // console.log("these five not");
-      setNameError("First name must be at least 5 characters");
+      setNameError("Full name must be at least 5 characters");
 
     } else {
-
-
-
-
+      
       fetch(`${import.meta.env.VITE_Bankend}/regestion`, {
         method: "POST",
         headers: {
@@ -55,14 +53,18 @@ export const Sign_up = () => {
         .then((res) => res.json())
         .then((data) => {
 
-          localStorage.setItem("userName", data.data.name);
-          localStorage.setItem("userEmail", data.data.email);
-
+ 
           if (data.success == true) {
+            localStorage.setItem('token', data.token);
+               localStorage.setItem('user_id', data.id);
             alert("User inserted successfully");
-            // Swal.fire("SweetAlert2 is working!");
             window.location.href = "/";
           }
+          else{
+            alert(data.emailExist + " " + data.message);
+            // setEmailExistError(data.message);
+          }
+          // console.log(data);
         })
     }
   }
@@ -103,7 +105,7 @@ export const Sign_up = () => {
                       </div>
                     </a>
                     <div className="app-top-right-link">
-                      Already have an account?<a className="sidebar-register-link"  onClick={()=> SingnIn()}>Sign In</a>
+                      Already have an account?<a className="sidebar-register-link"  onClick={()=> SingnIn()}>Sign IN</a>
                     </div>
                   </div>
                 </div>

@@ -4,90 +4,113 @@ import { data, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 
-
-
-
-
 export const VenueEvent = () => {
- const [allDataArray, storeData] = useState([]);
-  const [errors, setNameError] = useState({});
+    const [allDataArray, storeData] = useState([]);
+    const [errors, setNameError] = useState({});
     const { id } = useParams();
 
-const navigate= useNavigate();
+    const navigate = useNavigate();
 
 
-      const signUpData = (e) => {
+    const HandelSignIn = () => {
 
-    const { name, value } = e.target;
+        navigate('/sign_in');
+    }
+                  const [StoreData, allData] = useState('');
+
+    console.log("ID in VenueEvent:", StoreData.title);
+                 const HnadelNextPage = (id) => {
+
+                 navigate(`/sheet/${id}`), { 
+            state: { 
+                title: StoreData.title,
+            }
+        };
+                
+    }
 
 
-    const removeSpace = value.replace(/^\s+/, "");
+    const signUpData = (e) => {
 
-    storeData({ ...allDataArray, [name]: removeSpace });
-
-    setNameError((prev) => ({
-      ...prev,
-      name: name === "name" && value.length < 5 ? "Must be at least 5 characters (numbers are not allowed)" : "",
-      password: name === "password" && value.length < 6 ? "Password must be at least 6 characters (no spaces allowed)" : "",
-    }))
+        const { name, value } = e.target;
 
 
-      }
+        const removeSpace = value.replace(/^\s+/, "");
 
-  const HandelEvent = () => {
+        storeData({ ...allDataArray, [name]: removeSpace });
 
-    // console.log(allDataArray)
-
-          fetch(`${import.meta.env.VITE_Bankend}/regestion`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(allDataArray),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-
-          localStorage.setItem("userName", data.data.name);
-          localStorage.setItem("userEmail", data.data.email);
-
-          navigate('/sheet');
-        })
 
     }
 
-    
-    
-    
+    const HandelEvent = () => {
+
+        // console.log(allDataArray)
+
+        fetch(`${import.meta.env.VITE_Bankend}/regestion`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(allDataArray),
+        })
+            .then((res) => res.json())
+            .then((data) => {
 
 
-  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(allDataArray.email || "");
-  const isPassword = (allDataArray.password || "").replace(/\s+/g, "");
-  const isPasswordValid = isPassword.length >= 6;
-  const isName = /^[A-Za-z]{3,}[A-Za-z ]{2,}$/.test(allDataArray.name || "");
+                if (data.success == true) {
+                    localStorage.setItem('token', data.token);
+                    navigate(`/sheet/${id}`);
+                }
+                else {
+                    alert(data.emailExist + " " + data.message);
+                    // setEmailExistError(data.message);
+                };
 
-  const isFormValid =
-    isName &&
-    // allDataArray.last_name &&
-    isEmailValid &&
-    isPasswordValid;
+            })
 
-
-
-    const userEmail = localStorage.getItem("userName");
+    }
 
 
-    const [StoreData, allData] = useState('');
+
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(allDataArray.email || "");
+    const isPassword = (allDataArray.password || "").replace(/\s+/g, "");
+    const isPasswordValid = isPassword.length >= 6;
+    const isName = /^[A-Za-z]{3,}[A-Za-z ]{2,}$/.test(allDataArray.name || "");
+
+    const isFormValid =
+        isName &&
+        // allDataArray.last_name &&
+        isEmailValid &&
+        isPasswordValid;
+
+
+
+    // const userEmail = localStorage.getItem("userName");
+    // if()
+    const token = localStorage.getItem("token");
+
+
+
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_Bankend}/getMoviesDetails/${id}`)
+        fetch(`${import.meta.env.VITE_Bankend}/getMoviesDetails/${id}`,
+
+            {
+                headers: {
+                    'X-API-KEY': import.meta.env.VITE_API_KEY,
+
+
+                }
+
+            }
+        )
             .then((res) => res.json())
             .then((data) => {
                 allData(data)
             })[0]
     }, [id]);
 
-    //  console.log(StoreData.id); 
+    //  console.log(StoreData); 
 
 
 
@@ -95,9 +118,7 @@ const navigate= useNavigate();
 
         <>
 
-
             <div>
-
                 <Header />
 
                 {/* Header End*/}
@@ -153,7 +174,7 @@ const navigate= useNavigate();
                                 <div className="col-xl-8 col-lg-7 col-md-12">
                                     <div className="main-event-dt">
                                         <div className="event-img">
-                                            <img src="../assets/images/event-imgs/big-2.jpg" />
+                                            <img src={`../assets/images/event-imgs/${StoreData.movie_poster}`} />
                                         </div>
 
                                         <div className="share-save-btns dropdown">
@@ -309,7 +330,7 @@ const navigate= useNavigate();
                                                                             <h2 className="registration-title">Sign up to Barren</h2>
                                                                             <div className="row mt-3">
                                                                                 <div className="col-lg-12 col-md-12">
-                                                                                    <div className="form-group mt-4">                                                            <label className="form-label">First Name*</label>
+                                                                                    <div className="form-group mt-4">                                                            <label className="form-label">Full Name*</label>
                                                                                         <input className="form-control h_50" onChange={signUpData} required name="name" type="text" placeholder="Enter your first name" />
                                                                                     </div>
                                                                                     {/* {errors.name && <small style={{ color: "red" }}>{errors.name}</small>} */}
@@ -334,12 +355,12 @@ const navigate= useNavigate();
                                                                                     </div>
                                                                                 </div>
                                                                                 <div className="col-lg-12 col-md-12">
-                                                                                    <button  
-                                                                               data-bs-dismiss="modal"
-                                                                                    className="main-btn btn-hover w-100 mt-4" onClick={() => HandelEvent()} disabled={!isFormValid} style={{
-                                                                                        backgroundColor: isFormValid ? "#6ac045" : "#c7e6baff", // blue if valid, light grey if not
-                                                                                        cursor: isFormValid ? "pointer" : "not-allowed",
-                                                                                    }} type="button">Sign Up</button>
+                                                                                    <button
+                                                                                        data-bs-dismiss="modal"
+                                                                                        className="main-btn btn-hover w-100 mt-4" onClick={() => HandelEvent()} disabled={!isFormValid} style={{
+                                                                                            backgroundColor: isFormValid ? "#6ac045" : "#c7e6baff", // blue if valid, light grey if not
+                                                                                            cursor: isFormValid ? "pointer" : "not-allowed",
+                                                                                        }} type="button">Sign Up</button>
                                                                                 </div>
                                                                             </div>
                                                                         </form>
@@ -347,13 +368,17 @@ const navigate= useNavigate();
                                                                         <div className="divider">
                                                                             <span>or</span>
                                                                         </div>
+
+
+                                                                        <div className="col-lg-12 col-md-12">
+                                                                            <button 
+                                                                                data-bs-dismiss="modal"
+                                                                                className="main-btn btn-hover w-100 mt-0" onClick={() => HandelSignIn()} type="button">LogiIn</button>
+                                                                        </div>
                                                                         <div className="social-btns-list mb-lg-5">
 
                                                                         </div>
-                                                                        <div className="new-sign-link">
-                                                                            Already have an account?<a className="signup-link" href="sign_in.html">Sign In</a>
-                                                                        </div>
-                                                                    </div>
+                                                                  </div>
                                                                 </div>
                                                             </div>
 
@@ -366,14 +391,16 @@ const navigate= useNavigate();
                                             </div>
                                         </div>
 
-                                        {!userEmail ? (
+                                        {!token ? (
 
                                             <div className="booking-btn">
-                                                <a  data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" className="main-btn btn-hover w-100">Book Now</a>
+                                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" className="main-btn btn-hover w-100">Book Now</a>
                                             </div>
                                         ) : (
                                             <div className="booking-btn">
-                                                <a href="/sheet" data-bs-whatever="@mdo" className="main-btn btn-hover w-100">Book Now</a>
+                                                <a onClick={() => HnadelNextPage(id)} data-bs-whatever="@mdo" className="main-btn btn-hover w-100">Book Now</a>
+
+
                                             </div>
                                         )}
                                     </div>

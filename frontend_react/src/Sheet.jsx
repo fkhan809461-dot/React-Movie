@@ -2,12 +2,20 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export const SheetShow = () => {
 
+  const location = useLocation();
+  
+     const { title } = location.state || {};
+
+      console.log("Title in SheetShow:", title);
+
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
-
+ const { id } = useParams();
 
   const [sheets, allSheetGet] = useState([]);
 
@@ -20,12 +28,17 @@ export const SheetShow = () => {
     return;
     }
 
+   
+
+    const eventId = id; 
+
     navigate('/check_out'
 
       , {
     state: {
       totalAmount,
       selectedSeats,
+    eventId
     },}
 
     );
@@ -47,7 +60,12 @@ export const SheetShow = () => {
     setSelectedSeats(updatedSeats);
     setTotalAmount(totalAmount - Number(seat.price));
   } else {
-    // SELECT
+
+     if (selectedSeats.length >= 10) {
+      alert("Maximum seat limit is 10! You cannot select more than 10 seats.");
+      return;
+    }
+
     setSelectedSeats([...selectedSeats, seat]);
     setTotalAmount(totalAmount + Number(seat.price));
   }
@@ -56,7 +74,7 @@ export const SheetShow = () => {
 
   useEffect(() => {
 
-    fetch(`${import.meta.env.VITE_Bankend}/SheetAllreadyBook`)
+    fetch(`${import.meta.env.VITE_Bankend}/SheetAllreadyBook/${id}`)
       .then((res) => res.json())
       .then((data) => allSheetGet(data));
 

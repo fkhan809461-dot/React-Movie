@@ -26,7 +26,8 @@ class UserModel extends Model
     {
 
         $this->insert($data);
-    }
+  return $this->getInsertID();
+        }
 
 
     public function checkUser($email, $password)
