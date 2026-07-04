@@ -10,11 +10,19 @@ export const IndexPage = () => {
   const [movies, allMoviesGet] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_Bankend}/allMovies`)
-      .then((res) => res.json())
-      .then((data) => allMoviesGet(data));
-  }, []);
+    useEffect(() => {
+  fetch(`${import.meta.env.VITE_Bankend}/allMovies`, {
+    headers: {
+      'X-API-KEY': import.meta.env.VITE_API_KEY
+    }
+  })
+  .then((res) => res.json()) 
+  .then((data) => {
+    allMoviesGet(data.data ?? data);
+    // console.log(data);
+  })
+  .catch((err) => console.log(err));
+}, []);
 
 
   const MovieMoveId = (id) => {
@@ -45,7 +53,7 @@ export const IndexPage = () => {
                     <div className="hero-banner-content">
                       <h2>The Easiest and Most Powerful Online Event Booking and Ticketing System</h2>
                       <p>Barren is an all-in-one event ticketing platform for event organisers, promoters, and managers. Easily create, promote and manage your events of any type and size.</p>
-                      <a href="create.html" className="main-btn btn-hover">Create Event <i className="fa-solid fa-arrow-right ms-3" /></a>
+                      <a href="#" className="main-btn btn-hover">Create Event <i className="fa-solid fa-arrow-right ms-3" /></a>
                     </div>
                   </div>
                 </div>

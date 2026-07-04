@@ -6,7 +6,8 @@ use App\Models\UserModel;
 use PhpParser\Builder\Function_;
 
 use App\Models\ContactModel;
-
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 class Home extends BaseController
 {
 
@@ -20,32 +21,55 @@ class Home extends BaseController
 
     }
     public function regestion()
-    {
-        $data = $this->request->getJSON(true);
+{
+    $data = $this->request->getJSON(true);
 
-        if (!empty($data)) {
-            $session = session();
+    if (!empty($data)) {
+        $user_model = new UserModel;
 
-            $user_data = [
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => $data['password'],
-            ];
+         $existingUser = $user_model->where('email', $data['email'])->first();
 
-            $user_model = new UserModel;
-            $user_id = $user_model->userSave($user_data);
+        //  print_r($existingUser);
+            // die;/
 
-            // Save session
-            $session->set([
-                'id'        => $user_id,
-                'name'      => $data['name'],
-                'email'     => $data['email'],
-                'isLoggedIn' => true
+        if ($existingUser) {
+
+        // echo "Email already registered. Please login!";
+
+            return $this->response->setJSON([
+                'success' => false,
+                'emailExist' =>  $data['email'],
+                'message' => 'Email already registered. Please login!',
             ]);
-
-            return $this->response->setJSON(['success' => true, 'data' => $data]);
         }
+
+
+        $user_id = $user_model->userSave([
+            'name'     => $data['name'],
+            'email'    => $data['email'],
+            'password' => password_hash($data['password'], PASSWORD_DEFAULT),
+        ]);
+
+// print_r($user_id);
+// die;
+         $payload = [
+            'iat'   => time(),
+            'exp'   => time() + (60 * 60 * 2),
+            'id'    => $user_id,
+            'name'  => $data['name'],
+            'email' => $data['email'],
+        ];
+
+         $token = JWT::encode($payload, getenv('JWT_SECRET_KEY'), 'HS256');
+
+
+        return $this->response->setJSON([
+            'success' => true,
+            'id'      => $user_id,
+            'token'   => $token,
+        ]);
     }
+}
 
 
 
@@ -54,102 +78,76 @@ class Home extends BaseController
     {
         $data = $this->request->getJSON(true);
 
-        print_r($data);
-        die;
+        $email = $data['email'];
+        $password = $data['password'];
+
 
         $user_model = new UserModel;
-        $user_id = $user_model->checkUser($email, $password);
+        $user = $user_model->where('email', $email)->first();
+
+        if (!$user) {
+        return $this->response->setStatusCode(401)->setJSON([
+            'success' => false,
+            'message' => 'Email not found!'
+        ]);
     }
 
-
-    // public function getSessionUser()
-    // {
-    //     // $session = session();
-
-    //     // if ($session->has('isLoggedIn') && $session->get('isLoggedIn')) {
-    //     //     return $this->response->setJSON([
-    //     //         'loggedIn' => true,
-    //     //         'id'       => $session->get('id'),
-    //     //         'name'     => $session->get('name'),
-    //     //         'email'    => $session->get('email')
-    //     //     ]);
-    //     // }
-
-    //     // // return $this->response->setJSON(['loggedIn' => false]);
-
-    //     //    return $this->response
-    //     // ->setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-    //     // ->setHeader('Access-Control-Allow-Credentials', 'true')
-    //     // ->setJSON($response);
-
-    //     if ($this->request->getMethod() === 'options') {
-    //     return $this->response
-    //         ->setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-    //         ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-    //         ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
-    //         ->setHeader('Access-Control-Allow-Credentials', 'true')
-    //         ->setStatusCode(200);
-    // }
-
-    // $session = session();
-
-    // $response = [
-    //     'loggedIn' => false
-    // ];
-
-    // if ($session->has('isLoggedIn') && $session->get('isLoggedIn')) {
-    //     $response = [
-    //         'loggedIn' => true,
-    //         'id'       => $session->get('id'),
-    //         'name'     => $session->get('name'),
-    //         'email'    => $session->get('email')
-    //     ];
-    // }
-
-    // return $this->response
-    //     ->setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-    //     ->setHeader('Access-Control-Allow-Credentials', 'true')
-    //     ->setJSON($response);
-
-
-    // }
-
-
-
-
-public function getSessionUser()
-{
-    if ($this->request->getMethod() === 'options') {
-        return $this->response
-            ->setHeader('Access-Control-Allow-Origin', 'http://localhost:5174')
-            ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
-            ->setHeader('Access-Control-Allow-Credentials', 'true')
-            ->setStatusCode(200);
+    if (!password_verify($password, $user['password'])) {
+        return $this->response->setStatusCode(401)->setJSON([
+            'success' => false,
+            'message' => 'Wrong password!'
+        ]);
     }
 
-    $session = session();
-
-    $response = [
-        'loggedIn' => false
+    $payload = [
+        'iat'   => time(),
+        'exp'   => time() + (60 * 60 * 2),
+        'id'    => $user['id'],
+        'name'  => $user['name'],
+        'email' => $user['email'],
     ];
 
-    if ($session->has('isLoggedIn') && $session->get('isLoggedIn')) {
-        $response = [
-            'loggedIn' => true,
-            'id'       => $session->get('id'),
-            'name'     => $session->get('name'),
-            'email'    => $session->get('email')
-        ];
+    $token = JWT::encode($payload, getenv('JWT_SECRET_KEY'), 'HS256');
+    return $this->response->setJSON([
+        'success' => true,
+        'token'   => $token,
+        'id'      => $user['id'],
+    ]);
+
     }
 
-    return $this->response
-        ->setHeader('Access-Control-Allow-Origin', 'http://localhost:5174')
-        ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-        ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
-        ->setHeader('Access-Control-Allow-Credentials', 'true')
-        ->setJSON($response);
-}
+
+ public function getSessionUser()
+    {
+
+        $authHeader = $this->request->getHeaderLine('Authorization');
+        $token = str_replace('Bearer ', '', $authHeader);
+
+            if (empty($token)) {
+        return $this->response->setJSON(['loggedIn' => false]);
+    }
+
+try {
+        //  verify token — user cannot fake this
+        $decoded = JWT::decode($token, new Key(getenv('JWT_SECRET_KEY'), 'HS256'));
+
+        return $this->response->setJSON([
+            'loggedIn' => true,
+            'id'       => $decoded->id,
+            'name'     => $decoded->name,
+            'email'    => $decoded->email,
+        ]);
+
+    } catch (\Exception $e) {
+        // token invalid or expired
+        return $this->response->setJSON(['loggedIn' => false]);
+    }
+        
+
+    }
+
+
+
     public function contactUs()
     {
 

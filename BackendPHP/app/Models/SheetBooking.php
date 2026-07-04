@@ -12,7 +12,7 @@ class SheetBooking extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['booking_id', 'seat_id', 'price', 'booking_status'];
+    protected $allowedFields    = ['booking_id', 'event_id', 'user_id', 'seat_id', 'price', 'booking_status'];
 
 
     // public function allBookingSheet()
@@ -22,16 +22,31 @@ class SheetBooking extends Model
 
     // }
 
-    public function allBookingSheet()
+    public function allBookingSheet($id)
     {
         return $this->db->table('seats')
             ->select('seats.id, seats.seat_number, seats.price,bs.booking_status')
             ->join(
-                'booking_seats bs',
-                'bs.seat_id = seats.id AND bs.booking_status = "Y"',
-                'left'
-            ) ->orderBy('seats.id', 'ASC')
+            'booking_seats bs',
+            'bs.seat_id = seats.id AND bs.event_id = ' . $id . ' AND bs.booking_status = "Y"',
+            'left'
+        )
+            // ->where('bs.event_id', $id)
+             ->orderBy('seats.id', 'ASC')
             ->get()
             ->getResultArray();
     }
+
+
+    public function BookingSeatsM($data)
+    {
+        // print_r($data);
+
+        // die;
+
+        $this->insert($data);
+        return 'Seats booked successfully';
+    }
+
+
 }

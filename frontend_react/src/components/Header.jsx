@@ -13,15 +13,18 @@ export const Header = () => {
     const MoveIndexPage = () => {
         navigateNextPage('/')
     }
-    const userEmail = localStorage.getItem("userName");
-    const userName = localStorage.getItem("userEmail");
+    // const userEmail = localStorage.getItem("userName");
+    // const userName = localStorage.getItem("userEmail");
 
     // consle.log(userEmail);
 
     const LogOutUser = () => {
 
-        localStorage.removeItem("userName");
-        localStorage.removeItem("userEmail");
+
+
+        localStorage.removeItem('token');
+          localStorage.removeItem('id');     
+        localStorage.clear();
 
         navigateNextPage('/Sign_in');
 
@@ -36,25 +39,36 @@ export const Header = () => {
 
     const [Datasession, LoginesDetails] = useState('');
 
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_Bankend}/getSessionUser`, {
-            method: "GET",
-            credentials: "include",
-        })
-            .then((res) => res.json())
-            .then((data) =>
+ useEffect(() => {
 
-                LoginesDetails(data),
-            )
-    }, [])
+      const token = localStorage.getItem('token');
+    //   const userId = localStorage.getItem('id');
+
+         if (!token) {
+      LoginesDetails({ loggedIn: false });
+      return;
+    }
 
 
-    //    console.log("Session Data:", Datasession);
+    fetch(`${import.meta.env.VITE_Bankend}/getSessionUser`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'X-API-KEY': import.meta.env.VITE_API_KEY
+      }
+    })
+    .then(res => res.json())
+    .then(data => LoginesDetails(data))
+    .catch(() => LoginesDetails({ loggedIn: false }));
+
+    // console.log("Session Data:", Datasession);
+
+  }, []);
+
+    // console.log("Session Data:", Datasession);
 
     return (
 
         <>
-
 
             <header className="header">
                 <div className="header-inner">
@@ -86,7 +100,7 @@ export const Header = () => {
                                 <div className="offcanvas-body">
                                     <div className="offcanvas-top-area">
                                         <div className="create-bg">
-                                            <a href="create.html" className="offcanvas-create-btn">
+                                            <a href="#" className="offcanvas-create-btn">
                                                 <i className="fa-solid fa-calendar-days" />
                                                 <span>Create Event</span>
                                             </a>
@@ -132,7 +146,7 @@ export const Header = () => {
                             <div className="right-header order-2">
                                 <ul className="align-self-stretch">
                                     <li>
-                                        <a href="create.html" className="create-btn btn-hover">
+                                        <a href="#" className="create-btn btn-hover">
                                             <i className="fa-solid fa-calendar-days" />
                                             <span>Create Event</span>
                                         </a>
@@ -148,14 +162,14 @@ export const Header = () => {
                                                     <div className="account-holder-avatar">
                                                         <img src="/assets/images/profile-imgs/img-13.jpg" />
                                                     </div>
-                                                    <h5>{userEmail}</h5>
-                                                    <p>{userName}</p>
+                                                    <h5>{!Datasession.name ? 'Hi Guest'  : Datasession.name }</h5>
+                                                    <p>{Datasession.email}</p>
                                                 </div>
                                             </li>
 
  
                                                
-                                            {userName ? (
+                                            {Datasession.name ? (
 
 
 
@@ -165,7 +179,6 @@ export const Header = () => {
                                                     <Link to="/profile_user" className="link-item">My Profile</Link>
                                                     <a onClick={() => LogOutUser()} className="link-item">Sign Out</a>
                                                 </li>
-
                                             ) :
 
 
@@ -174,16 +187,9 @@ export const Header = () => {
                                                     <Link to="/profile_user" className="link-item">My Profile</Link>
                                                     <a role="button" onClick={()=> SignUp()} className="link-item">Sign up</a>
                                                 </li>
-
                                             }
-
-
                                         </ul>
                                     </li>
-
-
-
-
                                 </ul>
                             </div>
                         </div>

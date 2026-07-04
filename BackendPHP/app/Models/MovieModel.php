@@ -29,7 +29,25 @@ class MovieModel extends Model
 
 
 
-    
+         public function getMovieByIdModel($id,$userId)
+    {
+//         print_r($id);
+// die;
+    return     $this->select('movie.title,
+         movie.movie_poster, 
+         shows.show_time as shows_time,
+         COUNT(booking_seats.user_id) as total_tickets'
+         )
+                     ->join('shows', 'shows.movie_id = movie.id')
+                     ->join('booking_seats', 'booking_seats.event_id  = movie.id', 'left')
+                     ->where('movie.id', $id)
+                     ->where('booking_seats.user_id', $userId)
+                     ->first();
+
+//                       echo $this->db->getLastQuery();
+//     die;
+      
+}
 
 
 

@@ -6,7 +6,7 @@ export const SignINForm = () => {
   const [formData, setFormData] = useState();
 
 
-  const LoginSubmit= () => {
+  const LoginSubmit= (e) => {
 
     const {name,value} = e.target;
 
@@ -15,7 +15,36 @@ export const SignINForm = () => {
   }
 
   const HandelSubmit= () => {
-    console.log(formData);
+    // console.log(formData);
+
+      fetch(`${import.meta.env.VITE_Bankend}/AllreadyLogin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+
+  //  console.log(data.message);
+
+  // 
+
+  if(data.message){
+              alert(data.message);
+  }
+
+
+          if (data.success == true) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user_id', data.id);
+            alert("User inserted successfully");
+            window.location.href = "/";
+            // console.log(data);
+          }
+        })
+      
   }
 
 
@@ -58,7 +87,7 @@ export const SignINForm = () => {
                     <h2 className="registration-title">Sign in to Barren</h2>
                     <div className="form-group mt-5">
                       <label className="form-label">Your Email*</label>
-                      <input className="form-control h_50" type="email" onChange={() => LoginSubmit()} placeholder="Enter your email" defaultValue />
+                      <input className="form-control h_50" type="email" name="email" onChange={LoginSubmit} placeholder="Enter your email"/>
                     </div>
                     <div className="form-group mt-4">
                       <div className="field-password">
@@ -66,7 +95,7 @@ export const SignINForm = () => {
                         <a className="forgot-pass-link"  >Forgot Password?</a>
                       </div>
                       <div className="loc-group position-relative">
-                        <input className="form-control h_50" type="password" onChange={() => LoginSubmit()} placeholder="Enter your password" />
+                        <input className="form-control h_50" type="password" name="password" onChange={LoginSubmit} placeholder="Enter your password" />
                         <span className="pass-show-eye"><i className="fas fa-eye-slash" /></span>
                       </div>
                     </div>
